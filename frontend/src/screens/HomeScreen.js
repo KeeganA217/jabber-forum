@@ -7,8 +7,9 @@ const HomeScreen = () => {
       <Row>
         <Col lg={12}>
           <div className="intro-card">
-            <img className="img-person" src="images/megaphone.png" />
-            <img className="img-bubble" src="images/bubble.png" />
+            <img className="img-person-left" src="images/megaphone.png" />
+            <p className="motto">Discuss Freely</p>
+            <img className="img-person-right" src="images/megaphone2.png" />
           </div>
         </Col>
       </Row>
