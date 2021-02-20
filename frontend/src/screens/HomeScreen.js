@@ -37,12 +37,19 @@ const HomeScreen = () => {
                 </strong>
               </Card.Title>
               <Card.Body>
+                {loading && <Loader />}
+                {error && <Message variant="danger">{error}</Message>}
                 {topics &&
                   topics.map((topic) => (
                     <Card.Text key={topic.id} as="div" className="py-2">
                       <Link className="topic-link">{topic.title}</Link>
                     </Card.Text>
                   ))}
+                <Card.Text className="center-align mt-2">
+                  <Link to="/topics">
+                    <h4>Browse All</h4>
+                  </Link>
+                </Card.Text>
               </Card.Body>
             </Card>
           </Col>

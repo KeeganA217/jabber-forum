@@ -6,13 +6,19 @@ import {
   userRegisterReducer,
   userDetailsReducer,
 } from "./reducers/userReducer";
-import { listRecentTopicsReducer } from "./reducers/topicReducer";
+import {
+  listRecentTopicsReducer,
+  listAllTopicsReducer,
+  createNewTopicReducer,
+} from "./reducers/topicReducer";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
   listRecentTopics: listRecentTopicsReducer,
+  getAllTopics: listAllTopicsReducer,
+  makeNewTopic: createNewTopicReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

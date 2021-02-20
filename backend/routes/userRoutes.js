@@ -67,7 +67,6 @@ router.post("/login", async (req, res) => {
     } else if (result.length === 0) {
       res.status(400);
       res.send({ message: "User does not exist." });
-      console.log(result[0]);
     } else {
       bcrypt.compare(password, result[0].password, (error, response) => {
         if (response) {

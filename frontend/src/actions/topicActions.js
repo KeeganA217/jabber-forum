@@ -2,49 +2,39 @@ import {
   LIST_TOPICS_FAIL,
   LIST_TOPICS_REQUEST,
   LIST_TOPICS_SUCCESS,
+  LIST_ALL_TOPICS_FAIL,
+  LIST_ALL_TOPICS_REQUEST,
+  LIST_ALL_TOPICS_SUCCESS,
+  ADD_NEW_TOPIC_REQUEST,
+  ADD_NEW_TOPIC_SUCCESS,
+  ADD_NEW_TOPIC_FAIL,
 } from "../constants/topicConstants";
 import axios from "axios";
 
-// export const register = (first_name, last_name, email, password) => async (
-//   dispatch
-// ) => {
-//   try {
-//     dispatch({
-//       type: USER_REGISTER_REQUEST,
-//     });
+export const createNewTopic = (title, id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: ADD_NEW_TOPIC_REQUEST,
+    });
 
-//     const url = "http://localhost:5000";
+    const url = "http://localhost:5000";
 
-//     const user = {
-//       first_name,
-//       last_name,
-//       email,
-//       password,
-//     };
+    const { data } = await axios.post(`${url}/api/topics`, { title, id });
 
-//     const { data } = await axios.post(`${url}/api/users/register`, user);
-
-//     dispatch({
-//       type: USER_REGISTER_SUCCESS,
-//       payload: data,
-//     });
-
-//     dispatch({
-//       type: USER_LOGIN_SUCCESS,
-//       payload: data,
-//     });
-
-//     localStorage.setItem("userInfo", JSON.stringify(data));
-//   } catch (error) {
-//     dispatch({
-//       type: USER_REGISTER_FAIL,
-//       payload:
-//         error.response && error.response.data.message
-//           ? error.response.data.message
-//           : error.message,
-//     });
-//   }
-// };
+    dispatch({
+      type: ADD_NEW_TOPIC_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADD_NEW_TOPIC_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
 export const listTopics = () => async (dispatch) => {
   try {
@@ -54,7 +44,7 @@ export const listTopics = () => async (dispatch) => {
 
     const url = "http://localhost:5000";
 
-    const { data } = await axios.get(`${url}/api/topics`);
+    const { data } = await axios.get(`${url}/api/topics/new`);
 
     dispatch({
       type: LIST_TOPICS_SUCCESS,
@@ -63,6 +53,31 @@ export const listTopics = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: LIST_TOPICS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const listAllTopics = () => async (dispatch) => {
+  try {
+    dispatch({
+      type: LIST_ALL_TOPICS_REQUEST,
+    });
+
+    const url = "http://localhost:5000";
+
+    const { data } = await axios.get(`${url}/api/topics/all`);
+
+    dispatch({
+      type: LIST_ALL_TOPICS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: LIST_ALL_TOPICS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
