@@ -6,7 +6,7 @@
   background-color: #161d6f;
 }
 
-h2 {
+.main-title {
   color: var(--main-accent-color);
 }
 
@@ -14,7 +14,6 @@ h2 {
   width: auto;
   height: 500px;
   background-color: #98ded9;
-  border-radius: 10px;
   margin: 0 3rem 0 3rem;
 }
 
@@ -44,8 +43,9 @@ h2 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #db76ff !important;
   color: black !important;
-  border-radius: 10px !important;
-  /* opacity: 0.5; */
+}
+
+.topic-link {
+  color: #161d6f !important;
 }

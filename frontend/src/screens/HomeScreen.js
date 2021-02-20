@@ -1,7 +1,21 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Card, Col, Container, Row, Image } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { listTopics } from "../actions/topicActions";
+import { Link } from "react-router-dom";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
 
 const HomeScreen = () => {
+  const dispatch = useDispatch();
+
+  const listRecentTopics = useSelector((state) => state.listRecentTopics);
+  const { loading, error, topics } = listRecentTopics;
+
+  useEffect(() => {
+    dispatch(listTopics());
+  }, []);
+
   return (
     <Fragment>
       <Row>
@@ -15,81 +29,20 @@ const HomeScreen = () => {
       </Row>
       <Container>
         <Row>
-          <Col lg={4}>
+          <Col lg={3}>
             <Card className="my-3 p-3 topics-card">
               <Card.Title as="div">
                 <strong>
-                  <h4>Recent Topics</h4>
+                  <h3>Recent Topics</h3>
                 </strong>
               </Card.Title>
               <Card.Body>
-                <Card.Text as="div" className="py-2">
-                  Topic 1
-                </Card.Text>
-                <Card.Text as="div" className="py-2">
-                  Topic 2
-                </Card.Text>
-                <Card.Text as="div" className="py-2">
-                  Topic 3
-                </Card.Text>
-                <Card.Text as="div" className="py-2">
-                  Topic 4
-                </Card.Text>
-                <Card.Text as="div" className="py-2">
-                  Topic 5
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col lg={4}>
-            <Card className="my-3 p-3 topics-card">
-              <Card.Title as="div">
-                <strong>
-                  <h4>Something Else</h4>
-                </strong>
-              </Card.Title>
-              <Card.Body>
-                <Card.Text as="div" className="py-2">
-                  Topic 1
-                </Card.Text>
-                <Card.Text as="div" className="py-2">
-                  Topic 2
-                </Card.Text>
-                <Card.Text as="div" className="py-2">
-                  Topic 3
-                </Card.Text>
-                <Card.Text as="div" className="py-2">
-                  Topic 4
-                </Card.Text>
-                <Card.Text as="div" className="py-2">
-                  Topic 5
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col lg={4}>
-            <Card className="my-3 p-3 topics-card">
-              <Card.Title as="div">
-                <strong>
-                  <h4>Most Popular</h4>
-                </strong>
-              </Card.Title>
-              <Card.Body>
-                <Card.Text as="div" className="py-2">
-                  Topic 1
-                </Card.Text>
-                <Card.Text as="div" className="py-2">
-                  Topic 2
-                </Card.Text>
-                <Card.Text as="div" className="py-2">
-                  Topic 3
-                </Card.Text>
-                <Card.Text as="div" className="py-2">
-                  Topic 4
-                </Card.Text>
-                <Card.Text as="div" className="py-2">
-                  Topic 5
-                </Card.Text>
+                {topics &&
+                  topics.map((topic) => (
+                    <Card.Text key={topic.id} as="div" className="py-2">
+                      <Link className="topic-link">{topic.title}</Link>
+                    </Card.Text>
+                  ))}
               </Card.Body>
             </Card>
           </Col>

@@ -1,10 +1,12 @@
 import React, { Fragment, useState } from "react";
-import { Nav, Navbar, Container, NavDropdown } from "react-bootstrap";
+import { Nav, Navbar, Container, NavDropdown, Image } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { Link } from "react-router-dom";
 import LoginModal from "../modals/LoginModal";
 import { useDispatch, useSelector } from "react-redux";
 import RegisterModal from "../modals/RegisterModal";
 import { logout } from "../actions/userActions";
+import { userDetailsReducer } from "../reducers/userReducer";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -25,12 +27,19 @@ const Header = () => {
       <Navbar variant="dark" className="mb-4 navbar-main">
         <Container>
           <Navbar.Brand href="/" className="my-0 py-0">
-            <h2>Jabber</h2>
+            <h2 className="main-title">Jabber</h2>
           </Navbar.Brand>
           {userInfo ? (
             <Nav className="ml-auto">
-              <Navbar.Brand className="mr-5">Welcome Back!</Navbar.Brand>
-              <NavDropdown title={userInfo.first_name} id="username">
+              <NavDropdown
+                title={userInfo.first_name}
+                id="username"
+                className="mr-4"
+              >
+                <LinkContainer to="/">
+                  <NavDropdown.Item>Home</NavDropdown.Item>
+                </LinkContainer>
+                <NavDropdown.Divider />
                 <LinkContainer to="/profile">
                   <NavDropdown.Item>Profile</NavDropdown.Item>
                 </LinkContainer>
@@ -39,6 +48,15 @@ const Header = () => {
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>
+              <Link to="/profile" style={{ width: "50px", height: "50px" }}>
+                <Image
+                  to="/profile"
+                  fluid
+                  thumbnail
+                  roundedCircle
+                  src={!userInfo.image ? "images/default.png" : userInfo.image}
+                />
+              </Link>
             </Nav>
           ) : (
             <Nav className="ml-auto">

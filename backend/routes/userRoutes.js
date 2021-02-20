@@ -6,6 +6,8 @@ import bcrypt from "bcrypt";
 const router = express.Router();
 const connection = mysql.createConnection(db);
 
+// REGISTER A NEW USER
+
 router.post("/register", async (req, res) => {
   const { first_name, last_name, email, password } = req.body.first_name;
   const salt = 10;
@@ -41,6 +43,7 @@ router.post("/register", async (req, res) => {
                 last_name: last_name,
                 email: email,
                 isAdmin: "0",
+                image: null,
               });
             }
           }
@@ -49,6 +52,8 @@ router.post("/register", async (req, res) => {
     }
   });
 });
+
+// LOGIN A USER
 
 router.post("/login", async (req, res) => {
   const email = req.body.email;
@@ -72,11 +77,34 @@ router.post("/login", async (req, res) => {
             last_name: result[0].last_name,
             email: result[0].email,
             isAdmin: result[0].isAdmin,
+            image: result[0].image,
           });
         } else {
           res.status(400);
           res.send({ message: "Incorrect Email or Password." });
         }
+      });
+    }
+  });
+});
+
+// GET A SINGLE USERS DETAILS
+router.get("/:id", (req, res) => {
+  const id = req.params.id;
+
+  let sqlFind = `SELECT * FROM users WHERE id = ?;`;
+
+  connection.query(sqlFind, id, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send({
+        id: result[0].id,
+        first_name: result[0].first_name,
+        last_name: result[0].last_name,
+        email: result[0].email,
+        isAdmin: result[0].isAdmin,
+        image: result[0].image,
       });
     }
   });
