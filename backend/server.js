@@ -8,6 +8,7 @@ import morgan from "morgan";
 import userRoutes from "./routes/userRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import topicRoutes from "./routes/topicRoutes.js";
+import commentRoutes from "./routes/commentRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 app.use("/api/users", userRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/topics", topicRoutes);
+app.use("/api/comments", commentRoutes);
 
 app.get("/", (req, res) => {
   res.send("API is running...");

@@ -15,7 +15,6 @@ const LoginModal = ({ show, handleClose }) => {
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
-
   const { loading, error, userInfo } = userLogin;
 
   useEffect(() => {

@@ -5,20 +5,36 @@ import {
   userLoginReducer,
   userRegisterReducer,
   userDetailsReducer,
+  userListReducer,
+  userCommentsReducer,
 } from "./reducers/userReducer";
 import {
   listRecentTopicsReducer,
   listAllTopicsReducer,
+  topicDetailsReducer,
   createNewTopicReducer,
+  topicDeleteReducer,
 } from "./reducers/topicReducer";
+import {
+  listCommentsReducer,
+  createCommentReducer,
+  deleteCommentReducer,
+} from "./reducers/commentReducer";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,
+  userList: userListReducer,
+  userComments: userCommentsReducer,
   listRecentTopics: listRecentTopicsReducer,
   getAllTopics: listAllTopicsReducer,
+  topicDelete: topicDeleteReducer,
   makeNewTopic: createNewTopicReducer,
+  topicDetails: topicDetailsReducer,
+  listComments: listCommentsReducer,
+  createComment: createCommentReducer,
+  deleteComment: deleteCommentReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

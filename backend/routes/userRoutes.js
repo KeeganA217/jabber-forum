@@ -87,7 +87,7 @@ router.post("/login", async (req, res) => {
   });
 });
 
-// GET A SINGLE USERS DETAILS
+// GET A SINGLE USERS INFO
 router.get("/:id", (req, res) => {
   const id = req.params.id;
 
@@ -104,7 +104,21 @@ router.get("/:id", (req, res) => {
         email: result[0].email,
         isAdmin: result[0].isAdmin,
         image: result[0].image,
+        joined_on: result[0].joined_on,
       });
+    }
+  });
+});
+
+// LIST ALL USERS AND DETAILS
+router.get("/", (req, res) => {
+  let sqlFind = `SELECT * FROM users;`;
+
+  connection.query(sqlFind, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
     }
   });
 });

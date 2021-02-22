@@ -10,12 +10,13 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getUserDetails } from "../actions/userActions";
+import { getUserDetails, getUserComments } from "../actions/userActions";
 import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
 import axios from "axios";
+import moment from "moment";
 
 const ProfileScreen = () => {
   const history = useHistory();
@@ -30,11 +31,15 @@ const ProfileScreen = () => {
 
   const dispatch = useDispatch();
 
-  const userDetails = useSelector((state) => state.userDetails);
-  const { loading, error, user } = userDetails;
-
   const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const { userInfo, error, loading } = userLogin;
+
+  const userComments = useSelector((state) => state.userComments);
+  const {
+    comments,
+    error: errorComments,
+    loading: loadingComments,
+  } = userComments;
 
   //   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
   //   const { success } = userUpdateProfile;
@@ -43,16 +48,12 @@ const ProfileScreen = () => {
     if (!userInfo) {
       history.push("/");
     } else {
-      if (!user) {
-        dispatch({ type: USER_UPDATE_PROFILE_RESET });
-        dispatch(getUserDetails(userInfo.id));
-      } else {
-        setFirstName(userInfo.first_name);
-        setLastName(userInfo.last_name);
-        setEmail(userInfo.email);
-      }
+      dispatch(getUserComments(userInfo.id));
+      setFirstName(userInfo.first_name);
+      setLastName(userInfo.last_name);
+      setEmail(userInfo.email);
     }
-  }, [dispatch, userInfo, history, user]);
+  }, [dispatch, userInfo, history]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -91,7 +92,10 @@ const ProfileScreen = () => {
     <Container>
       <Row>
         <Col md={3} className="my-3 mr-3">
-          <h2> User Profile</h2>
+          <h3>
+            {userInfo.first_name} {userInfo.last_name}
+          </h3>
+
           <Image
             to="/profile"
             fluid
@@ -100,17 +104,36 @@ const ProfileScreen = () => {
             src={!userInfo.image ? "images/default.png" : userInfo.image}
           />
         </Col>
-        <Col md={8} className="ml-5 mt-3">
-          <h2>Posts &amp; Comments</h2>
+        <Col md={8} className="ml-5 mt-4">
+          <p>
+            Member since{" "}
+            {moment(userInfo.joined_on).format("dddd, MMMM Do YYYY")}
+          </p>
+          <h3>Topics &amp; Comments</h3>
           <Table striped hover responsive bordered className="table-sm">
             <thead>
               <tr>
-                <th>DATE</th>
-                <th>TOPIC</th>
+                <th>DATE POSTED</th>
+                <th>TOPIC ID</th>
                 <th>COMMENT</th>
-                <th>LINK</th>
               </tr>
             </thead>
+            <tbody>
+              {comments &&
+                comments.map((comment) => (
+                  <tr key={comment.comment_id}>
+                    <td>
+                      {moment(comment.date_added).format("MMMM Do, YYYY")}
+                    </td>
+                    <td>
+                      <Link to={`/topics/${comment.topic_id}`}>
+                        {comment.topic_id}
+                      </Link>
+                    </td>
+                    <td>{comment.comment}</td>
+                  </tr>
+                ))}
+            </tbody>
           </Table>
         </Col>
       </Row>
@@ -131,7 +154,7 @@ const ProfileScreen = () => {
       </Row>
       <Row>
         <Col md={3} className="mr-2 mb-2">
-          <h2> User Profile</h2>
+          <h3> User Info</h3>
           {message && <Message variant="danger">{message}</Message>}
           {error && <Message variant="danger">{error}</Message>}
           {/* {success && <Message variant="success">Profile Updated</Message>} */}

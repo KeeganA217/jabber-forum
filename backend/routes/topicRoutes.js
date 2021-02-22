@@ -31,6 +31,37 @@ router.get("/all", (req, res) => {
   });
 });
 
+// GET SINGLE TOPIC DETAILS
+router.get("/:id", (req, res) => {
+  const id = req.params.id;
+
+  let sqlFind = `SELECT topics.topic_id, topics.title, topics.created_on, users.first_name, users.last_name
+  FROM topics INNER JOIN users ON topics.id = users.id WHERE topics.topic_id = ?;`;
+
+  connection.query(sqlFind, id, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result[0]);
+    }
+  });
+});
+
+// DELETE A SINGLE TOPIC
+router.delete("/:id", (req, res) => {
+  const id = req.params.id;
+
+  const sql = `DELETE FROM topics WHERE topic_id = ?;`;
+
+  connection.query(sql, id, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 // CREATE NEW TOPIC
 router.post("/", async (req, res) => {
   const { title, id } = req.body.title;

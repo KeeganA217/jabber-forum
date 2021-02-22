@@ -2,8 +2,8 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import AddTopicMidal from "../modals/AddTopicModal";
-import { listAllTopics } from "../actions/topicActions";
+import AddTopicModal from "../modals/AddTopicModal";
+import { listAllTopics, deleteTopic } from "../actions/topicActions";
 import { ListGroup, Container, Col, Row, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import moment from "moment";
@@ -18,12 +18,18 @@ const TopicsScreen = () => {
   const getAllTopics = useSelector((state) => state.getAllTopics);
   const { loading, error, topics } = getAllTopics;
 
+  const makeNewTopic = useSelector((state) => state.makeNewTopic);
+  const { success: successCreate } = makeNewTopic;
+
+  const topicDelete = useSelector((state) => state.topicDelete);
+  const { success } = topicDelete;
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   useEffect(() => {
     dispatch(listAllTopics());
-  }, [show]);
+  }, [show, success, successCreate]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => {
@@ -37,10 +43,16 @@ const TopicsScreen = () => {
     }
   };
 
+  const deleteHandler = (id) => {
+    if (window.confirm("Are you sure you want to delete this topic?")) {
+      dispatch(deleteTopic(id));
+    }
+  };
+
   return (
     <Fragment>
       <Container>
-        <Row className="mb-5">
+        <Row className="mt-4 mb-5">
           <Col md={8}>
             <h1>Current Open Topics</h1>
             <Form>
@@ -72,15 +84,33 @@ const TopicsScreen = () => {
                     }
                   })
                   .map((topic) => (
-                    <ListGroup.Item key={topic.id}>
-                      <Link>
-                        <h5>{topic.title}</h5>
-                      </Link>
-                      <small>
-                        {" "}
-                        Started on{" "}
-                        {moment(topic.created_on).format("dddd, MMMM Do YYYY")}
-                      </small>
+                    <ListGroup.Item key={topic.topic_id}>
+                      <Row>
+                        <Col md={9}>
+                          <Link to={`/topics/${topic.topic_id}`}>
+                            <h5>{topic.title}</h5>
+                          </Link>
+                          <small>
+                            {" "}
+                            Started on{" "}
+                            {moment(topic.created_on).format(
+                              "dddd, MMMM Do YYYY"
+                            )}
+                          </small>
+                        </Col>
+                        <Col className="ml-5">
+                          {userInfo && userInfo.isAdmin === 1 && (
+                            <Button
+                              onClick={() => {
+                                deleteHandler(topic.topic_id);
+                              }}
+                              className="ml-4 btn-danger"
+                            >
+                              <i className="fas fa-trash"></i>
+                            </Button>
+                          )}
+                        </Col>
+                      </Row>
                     </ListGroup.Item>
                   ))}
             </ListGroup>
@@ -97,7 +127,7 @@ const TopicsScreen = () => {
           </Col>
         </Row>
       </Container>
-      <AddTopicMidal show={show} handleClose={handleClose} />
+      <AddTopicModal show={show} handleClose={handleClose} />
     </Fragment>
   );
 };

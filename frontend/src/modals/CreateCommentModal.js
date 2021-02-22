@@ -1,39 +1,47 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../actions/userActions";
+import { createNewComment } from "../actions/commentActions";
 import { useHistory } from "react-router-dom";
 import Message from "../components/Message";
-import { createNewTopic } from "../actions/topicActions";
 import Loader from "../components/Loader";
+import { NEW_COMMENT_RESET } from "../constants/commentConstants";
 
-const AddTopicModal = ({ show, handleClose }) => {
+const CreateCommentModal = ({ show, handleClose }) => {
+  const history = useHistory();
+  const [comment, setComment] = useState("");
   const [message, setMessage] = useState("");
-  const [title, setTitle] = useState("");
 
   const dispatch = useDispatch();
-
-  const makeNewTopic = useSelector((state) => state.makeNewTopic);
-  const { loading, error } = makeNewTopic;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const createComment = useSelector((state) => state.createComment);
+  const { loading, error: errorNewComment, success } = createComment;
+
+  const topicDetails = useSelector((state) => state.topicDetails);
+  const { topic } = topicDetails;
+
+  useEffect(() => {
+    if (success) {
+      setComment("");
+      dispatch({ type: NEW_COMMENT_RESET });
+    }
+  }, [dispatch, success]);
+
   const submitHandler = (e) => {
     e.preventDefault();
-    if (title === "") {
-      setMessage("Please enter a title.");
-      setTimeout(() => {
-        setMessage("");
-      }, 1500);
+    if (comment === "") {
+      setMessage("Please add a comment.");
     } else {
       dispatch(
-        createNewTopic({
-          title,
+        createNewComment({
+          comment,
+          topic_id: topic.topic_id,
           id: userInfo.id,
         })
       );
-      setTitle("");
       handleClose();
     }
   };
@@ -41,20 +49,22 @@ const AddTopicModal = ({ show, handleClose }) => {
     <Fragment>
       <Modal size="lg" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Create New Topic</Modal.Title>
+          <Modal.Title>Make a new Post!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {error && <Message variant="danger">{error}</Message>}
+          {errorNewComment && (
+            <Message variant="danger">{errorNewComment}</Message>
+          )}
           {message && <Message variant="warning">{message}</Message>}
           {loading && <Loader />}
           <Form>
-            <Form.Group controlId="title">
-              <Form.Label>Title</Form.Label>
+            <Form.Group controlId="Comment">
               <Form.Control
                 type="text"
-                placeholder="Enter A Title..."
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                as="textarea"
+                placeholder="Enter Comment"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
               ></Form.Control>
             </Form.Group>
           </Form>
@@ -73,4 +83,4 @@ const AddTopicModal = ({ show, handleClose }) => {
   );
 };
 
-export default AddTopicModal;
+export default CreateCommentModal;

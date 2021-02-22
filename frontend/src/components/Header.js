@@ -24,48 +24,62 @@ const Header = () => {
 
   return (
     <Fragment>
-      <Navbar variant="dark" className="mb-4 navbar-main">
+      <Navbar variant="dark" className="mb-2 navbar-main">
         <Container>
           <Navbar.Brand href="/" className="my-0 py-0">
             <h2 className="main-title">Jabber</h2>
           </Navbar.Brand>
-          {userInfo ? (
-            <Nav className="ml-auto">
-              <NavDropdown
-                title={userInfo.first_name}
-                id="username"
-                className="mr-4"
-              >
-                <LinkContainer to="/">
-                  <NavDropdown.Item>Home</NavDropdown.Item>
+          <Nav>
+            <Nav.Link href="/topics">Topics</Nav.Link>
+            {userInfo && userInfo.isAdmin === 1 && (
+              <NavDropdown className="ml-2" title="Admin" id="adminmenu">
+                <LinkContainer to="/admin/userlist">
+                  <NavDropdown.Item>Users</NavDropdown.Item>
                 </LinkContainer>
-                <NavDropdown.Divider />
-                <LinkContainer to="/profile">
-                  <NavDropdown.Item>Profile</NavDropdown.Item>
-                </LinkContainer>
-                <NavDropdown.Divider />
-                <NavDropdown.Item onClick={logoutHandler}>
-                  Logout
-                </NavDropdown.Item>
               </NavDropdown>
-              <Link to="/profile" style={{ width: "50px", height: "50px" }}>
-                <Image
-                  to="/profile"
-                  fluid
-                  thumbnail
-                  roundedCircle
-                  src={!userInfo.image ? "images/default.png" : userInfo.image}
-                />
-              </Link>
-            </Nav>
-          ) : (
-            <Nav className="ml-auto">
-              <Nav.Link className="mr-1" onClick={() => setShow("modal-one")}>
-                Login
-              </Nav.Link>
-              <Nav.Link onClick={() => setShow("modal-two")}>Sign up</Nav.Link>
-            </Nav>
-          )}
+            )}
+            {userInfo ? (
+              <Fragment>
+                <NavDropdown
+                  title={userInfo.first_name}
+                  id="username"
+                  className="mr-4"
+                >
+                  <LinkContainer to="/">
+                    <NavDropdown.Item>Home</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Divider />
+                  <LinkContainer to="/profile">
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+                <Link to="/profile" style={{ width: "50px", height: "50px" }}>
+                  <Image
+                    to="/profile"
+                    fluid
+                    thumbnail
+                    roundedCircle
+                    src={
+                      !userInfo.image ? "images/default.png" : userInfo.image
+                    }
+                  />
+                </Link>
+              </Fragment>
+            ) : (
+              <Fragment>
+                <Nav.Link className="mr-1" onClick={() => setShow("modal-one")}>
+                  Login
+                </Nav.Link>
+                <Nav.Link onClick={() => setShow("modal-two")}>
+                  Sign up
+                </Nav.Link>
+              </Fragment>
+            )}
+          </Nav>
         </Container>
       </Navbar>
       <LoginModal show={show} handleClose={handleClose} />

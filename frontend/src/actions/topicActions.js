@@ -8,6 +8,12 @@ import {
   ADD_NEW_TOPIC_REQUEST,
   ADD_NEW_TOPIC_SUCCESS,
   ADD_NEW_TOPIC_FAIL,
+  SINGLE_TOPIC_FAIL,
+  SINGLE_TOPIC_SUCCESS,
+  SINGLE_TOPIC_REQUEST,
+  TOPIC_DELETE_FAIL,
+  TOPIC_DELETE_SUCCESS,
+  TOPIC_DELETE_REQUEST,
 } from "../constants/topicConstants";
 import axios from "axios";
 
@@ -36,7 +42,7 @@ export const createNewTopic = (title, id) => async (dispatch) => {
   }
 };
 
-export const listTopics = () => async (dispatch) => {
+export const listNewTopics = () => async (dispatch) => {
   try {
     dispatch({
       type: LIST_TOPICS_REQUEST,
@@ -86,32 +92,45 @@ export const listAllTopics = () => async (dispatch) => {
   }
 };
 
-// export const deleteTopic = (id) => async (dispatch, getState) => {
-//   try {
-//     dispatch({
-//       type: USER_DELETE_REQUEST,
-//     });
+export const listTopicDetails = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: SINGLE_TOPIC_REQUEST,
+    });
 
-//     const {
-//       userLogin: { userInfo },
-//     } = getState();
+    const { data } = await axios.get(`/api/topics/${id}`);
 
-//     const config = {
-//       headers: {
-//         Authorization: `Bearer ${userInfo.token}`,
-//       },
-//     };
+    dispatch({
+      type: SINGLE_TOPIC_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: SINGLE_TOPIC_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
-//     await axios.delete(`/api/users/${id}`, config);
+export const deleteTopic = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: TOPIC_DELETE_REQUEST,
+    });
 
-//     dispatch({ type: USER_DELETE_SUCCESS });
-//   } catch (error) {
-//     dispatch({
-//       type: USER_DELETE_FAIL,
-//       payload:
-//         error.response && error.response.data.message
-//           ? error.response.data.message
-//           : error.message,
-//     });
-//   }
-// };
+    await axios.delete(`/api/topics/${id}`);
+
+    dispatch({ type: TOPIC_DELETE_SUCCESS });
+  } catch (error) {
+    dispatch({
+      type: TOPIC_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

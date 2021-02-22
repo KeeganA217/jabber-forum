@@ -23,6 +23,9 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
   USER_UPDATE_FAIL,
+  USER_COMMENTS_SUCCESS,
+  USER_COMMENTS_FAIL,
+  USER_COMMENTS_REQUEST,
 } from "../constants/userConstants";
 import axios from "axios";
 
@@ -106,7 +109,7 @@ export const register = (first_name, last_name, email, password) => async (
   }
 };
 
-export const getUserDetails = (id) => async (dispatch, getState) => {
+export const getUserDetails = (id) => async (dispatch) => {
   try {
     dispatch({
       type: USER_DETAILS_REQUEST,
@@ -123,6 +126,31 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const getUserComments = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_COMMENTS_REQUEST,
+    });
+
+    const url = "http://localhost:5000";
+
+    const { data } = await axios.get(`${url}/api/comments/admin/${id}`);
+
+    dispatch({
+      type: USER_COMMENTS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_COMMENTS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message
@@ -171,38 +199,38 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 //   }
 // };
 
-// export const listUsers = () => async (dispatch, getState) => {
-//   try {
-//     dispatch({
-//       type: USER_LIST_REQUEST,
-//     });
+export const listUsers = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: USER_LIST_REQUEST,
+    });
 
-//     const {
-//       userLogin: { userInfo },
-//     } = getState();
+    const {
+      userLogin: { userInfo },
+    } = getState();
 
-//     const config = {
-//       headers: {
-//         Authorization: `Bearer ${userInfo.token}`,
-//       },
-//     };
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
 
-//     const { data } = await axios.get(`/api/users`, config);
+    const { data } = await axios.get(`/api/users`, config);
 
-//     dispatch({
-//       type: USER_LIST_SUCCESS,
-//       payload: data,
-//     });
-//   } catch (error) {
-//     dispatch({
-//       type: USER_LIST_FAIL,
-//       payload:
-//         error.response && error.response.data.message
-// ? error.response.data.message
-//           : error.message,
-//     });
-//   }
-// };
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
 // export const deleteUser = (id) => async (dispatch, getState) => {
 //   try {
@@ -254,7 +282,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 //     const { data } = await axios.put(`/api/users/${user._id}/`, user, config);
 
 //     dispatch({ type: USER_UPDATE_SUCCESS });
-//     dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
+//     dispatch({ type: USER_COMMENTS_SUCCESS, payload: data });
 //   } catch (error) {
 //     dispatch({
 //       type: USER_UPDATE_FAIL,
