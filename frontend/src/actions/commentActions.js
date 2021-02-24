@@ -8,10 +8,13 @@ import {
   DELETE_COMMENT_SUCCESS,
   DELETE_COMMENT_REQUEST,
   DELETE_COMMENT_FAIL,
+  LIST_ALL_COMMENTS_FAIL,
+  LIST_ALL_COMMENTS_REQUEST,
+  LIST_ALL_COMMENTS_SUCCESS,
 } from "../constants/commentConstants";
 import axios from "axios";
 
-export const listAllComments = (id) => async (dispatch) => {
+export const listAllTopicComments = (id) => async (dispatch) => {
   try {
     dispatch({
       type: LIST_COMMENTS_REQUEST,
@@ -28,6 +31,31 @@ export const listAllComments = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: LIST_COMMENTS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const listComments = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: LIST_ALL_COMMENTS_REQUEST,
+    });
+
+    const url = "http://localhost:5000";
+
+    const { data } = await axios.get(`${url}/api/comments`);
+
+    dispatch({
+      type: LIST_ALL_COMMENTS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: LIST_ALL_COMMENTS_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

@@ -9,12 +9,14 @@ import {
   Image,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { LinkContainer } from "react-router-bootstrap";
 import { useHistory, Link } from "react-router-dom";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getUserDetails, getUserComments } from "../actions/userActions";
-import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
+import {
+  getUserComments,
+  updateUserProfile,
+  getUserDetails,
+} from "../actions/userActions";
 import axios from "axios";
 import moment from "moment";
 
@@ -34,6 +36,14 @@ const ProfileScreen = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo, error, loading } = userLogin;
 
+  const userDetails = useSelector((state) => state.userDetails);
+  const {
+    loading: loadingDetails,
+    error: errorDetails,
+    success: successDetails,
+    user,
+  } = userDetails;
+
   const userComments = useSelector((state) => state.userComments);
   const {
     comments,
@@ -41,27 +51,50 @@ const ProfileScreen = () => {
     loading: loadingComments,
   } = userComments;
 
-  //   const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
-  //   const { success } = userUpdateProfile;
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile);
+  const { success } = userUpdateProfile;
 
   useEffect(() => {
     if (!userInfo) {
       history.push("/");
-    } else {
-      dispatch(getUserComments(userInfo.id));
+    }
+    loadDetails(userInfo.id);
+
+    if (successDetails) {
       setFirstName(userInfo.first_name);
       setLastName(userInfo.last_name);
       setEmail(userInfo.email);
     }
-  }, [dispatch, userInfo, history]);
+  }, [dispatch, userInfo, successDetails]);
+
+  const loadDetails = (id) => {
+    dispatch(getUserDetails(id));
+    dispatch(getUserComments(id));
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    // if (password !== confirmPassword) {
-    //   setMessage("Passwords do not match.");
-    // } else {
-    //   dispatch(updateUserProfile({ id: user._id, name, email, password }));
-    // }
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match.");
+      setTimeout(() => {
+        setMessage("");
+      }, 2000);
+    } else if (password === "" || confirmPassword === "") {
+      setMessage("Please complete all fields to update profile.");
+      setTimeout(() => {
+        setMessage("");
+      }, 3000);
+    } else {
+      dispatch(
+        updateUserProfile({
+          id: userInfo.id,
+          firstName,
+          lastName,
+          email,
+          password,
+        })
+      );
+    }
   };
 
   const uploadFileHandler = async (e) => {
@@ -93,7 +126,7 @@ const ProfileScreen = () => {
       <Row>
         <Col md={3} className="my-3 mr-3">
           <h3>
-            {userInfo.first_name} {userInfo.last_name}
+            {userInfo && userInfo.first_name} {userInfo && userInfo.last_name}
           </h3>
 
           <Image
@@ -101,15 +134,21 @@ const ProfileScreen = () => {
             fluid
             thumbnail
             roundedCircle
-            src={!userInfo.image ? "images/default.png" : userInfo.image}
+            src={
+              userInfo && !userInfo.image
+                ? "images/default.png"
+                : userInfo && userInfo.image
+            }
           />
         </Col>
         <Col md={8} className="ml-5 mt-4">
           <p>
             Member since{" "}
-            {moment(userInfo.joined_on).format("dddd, MMMM Do YYYY")}
+            {moment(userInfo && userInfo.joined_on).format(
+              "dddd, MMMM Do YYYY"
+            )}
           </p>
-          <h3>Topics &amp; Comments</h3>
+          <h3> My Comments</h3>
           <Table striped hover responsive bordered className="table-sm">
             <thead>
               <tr>
@@ -155,9 +194,9 @@ const ProfileScreen = () => {
       <Row>
         <Col md={3} className="mr-2 mb-2">
           <h3> User Info</h3>
+          {success && <Message variant="success">Profile Updated!</Message>}
           {message && <Message variant="danger">{message}</Message>}
           {error && <Message variant="danger">{error}</Message>}
-          {/* {success && <Message variant="success">Profile Updated</Message>} */}
           {loading && <Loader />}
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="name">

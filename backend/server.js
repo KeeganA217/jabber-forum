@@ -9,6 +9,7 @@ import userRoutes from "./routes/userRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import topicRoutes from "./routes/topicRoutes.js";
 import commentRoutes from "./routes/commentRoutes.js";
+import { errorHandler } from "./middleware/errorMiddleware.js";
 
 dotenv.config();
 const app = express();
@@ -21,6 +22,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/topics", topicRoutes);
 app.use("/api/comments", commentRoutes);
+app.use(errorHandler);
 
 app.get("/", (req, res) => {
   res.send("API is running...");

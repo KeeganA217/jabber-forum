@@ -9,6 +9,9 @@ import {
   DELETE_COMMENT_FAIL,
   DELETE_COMMENT_REQUEST,
   DELETE_COMMENT_SUCCESS,
+  LIST_ALL_COMMENTS_REQUEST,
+  LIST_ALL_COMMENTS_SUCCESS,
+  LIST_ALL_COMMENTS_FAIL,
 } from "../constants/commentConstants";
 
 export const listCommentsReducer = (state = { comments: [] }, action) => {
@@ -18,6 +21,19 @@ export const listCommentsReducer = (state = { comments: [] }, action) => {
     case LIST_COMMENTS_SUCCESS:
       return { loading: false, comments: action.payload };
     case LIST_COMMENTS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const listAllCommentsReducer = (state = { comments: [] }, action) => {
+  switch (action.type) {
+    case LIST_ALL_COMMENTS_REQUEST:
+      return { loading: true };
+    case LIST_ALL_COMMENTS_SUCCESS:
+      return { loading: false, comments: action.payload };
+    case LIST_ALL_COMMENTS_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

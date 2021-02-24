@@ -7,6 +7,9 @@ import {
   userDetailsReducer,
   userListReducer,
   userCommentsReducer,
+  userDeleteReducer,
+  userUpdateProfileReducer,
+  userUpdateReducer,
 } from "./reducers/userReducer";
 import {
   listRecentTopicsReducer,
@@ -17,6 +20,7 @@ import {
 } from "./reducers/topicReducer";
 import {
   listCommentsReducer,
+  listAllCommentsReducer,
   createCommentReducer,
   deleteCommentReducer,
 } from "./reducers/commentReducer";
@@ -24,8 +28,11 @@ import {
 const reducer = combineReducers({
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
+  userUpdateProfile: userUpdateProfileReducer,
+  userUpdate: userUpdateReducer,
   userDetails: userDetailsReducer,
   userList: userListReducer,
+  userDelete: userDeleteReducer,
   userComments: userCommentsReducer,
   listRecentTopics: listRecentTopicsReducer,
   getAllTopics: listAllTopicsReducer,
@@ -33,6 +40,7 @@ const reducer = combineReducers({
   makeNewTopic: createNewTopicReducer,
   topicDetails: topicDetailsReducer,
   listComments: listCommentsReducer,
+  listAllComments: listAllCommentsReducer,
   createComment: createCommentReducer,
   deleteComment: deleteCommentReducer,
 });

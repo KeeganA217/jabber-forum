@@ -20,7 +20,7 @@ const HomeScreen = () => {
     <Fragment>
       <Row>
         <Col lg={3} className="pr-0">
-          <Card className="mx-1 p-3 topics-card">
+          <Card className="mx-2 p-3 topics-card">
             <Card.Title as="div">
               <strong>
                 <h3>Recent Topics</h3>
@@ -29,27 +29,29 @@ const HomeScreen = () => {
             <Card.Body>
               {loading && <Loader />}
               {error && <Message variant="danger">{error}</Message>}
-              {topics &&
-                topics.map((topic) => (
-                  <Card.Text key={topic.topic_id} as="div" className="py-2">
-                    <Link
-                      to={`/topics/${topic.topic_id}`}
-                      className="topic-link"
-                    >
-                      {topic.title}
-                    </Link>
-                  </Card.Text>
-                ))}
-              <Card.Text className="center-align mt-2">
-                <Link to="/topics">
-                  <h4>Browse All</h4>
+              <ul>
+                {topics &&
+                  topics.map((topic) => (
+                    <li key={topic.topic_id} className="py-2">
+                      <Link
+                        to={`/topics/${topic.topic_id}`}
+                        className="topic-link"
+                      >
+                        {topic.title}
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
+              <Card.Text className="mt-2">
+                <Link to="/topics" className="topic-link-accent">
+                  Browse All
                 </Link>
               </Card.Text>
             </Card.Body>
           </Card>
         </Col>
         <Col className="pl-0">
-          <div className="intro-card mr-1">
+          <div className="intro-card mr-2">
             <img className="img-person-left" src="images/megaphone.png" />
             <p className="motto">Discuss Freely</p>
             <img className="img-person-right" src="images/megaphone2.png" />

@@ -5,7 +5,7 @@ import Loader from "../components/Loader";
 import AddTopicMidal from "../modals/AddTopicModal";
 import { useHistory } from "react-router-dom";
 import { listTopicDetails, deleteTopic } from "../actions/topicActions";
-import { listAllComments, removeComment } from "../actions/commentActions";
+import { listAllTopicComments, removeComment } from "../actions/commentActions";
 import CreateCommentModal from "../modals/CreateCommentModal";
 import { ListGroup, Container, Col, Row, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -42,7 +42,7 @@ const SingleTopicScreen = ({ match }) => {
 
   useEffect(() => {
     dispatch(listTopicDetails(match.params.id));
-    dispatch(listAllComments(match.params.id));
+    dispatch(listAllTopicComments(match.params.id));
   }, [match, success, successTopicDelete, successCommentDelete]);
 
   const handleClose = () => setShow(false);
@@ -74,7 +74,7 @@ const SingleTopicScreen = ({ match }) => {
     <Fragment>
       <Container>
         <Link className="btn btn-sm btn-secondary my-3" to="/topics">
-          Go Back
+          Back to all Topics
         </Link>
         {loading ? (
           <Loader />
@@ -98,6 +98,11 @@ const SingleTopicScreen = ({ match }) => {
                   {errorComments && (
                     <Message variant="danger">{errorComments}</Message>
                   )}
+                  {comments && comments.length === 0 && (
+                    <h4 className="mt-5 ml-5">
+                      No comments have been posted yet. Be the first?
+                    </h4>
+                  )}
                   {comments &&
                     comments.map((comment) => (
                       <ListGroup.Item className="p-2" key={comment.comment_id}>
@@ -107,7 +112,10 @@ const SingleTopicScreen = ({ match }) => {
                         <Row>
                           <Col className="pt-2 ml-4">
                             <small>
-                              Posted by {comment.first_name} {comment.last_name}{" "}
+                              Posted by{" "}
+                              <strong>
+                                {comment.first_name} {comment.last_name}
+                              </strong>{" "}
                               on{" "}
                               {moment(comment.date_added).format(
                                 "dddd, MMMM Do YYYY, h:mm:ss a"
@@ -121,7 +129,7 @@ const SingleTopicScreen = ({ match }) => {
                                 onClick={() => {
                                   deleteCommentHandler(comment.comment_id);
                                 }}
-                                className="ml-5 btn-danger"
+                                className="delete-button btn-danger"
                               >
                                 <i className="fas fa-trash"></i>
                               </Button>
@@ -154,7 +162,7 @@ const SingleTopicScreen = ({ match }) => {
 
                 <Button
                   block
-                  disabled={userInfo && userInfo.isAdmin !== 1}
+                  disabled={(userInfo && userInfo.isAdmin !== 1) || !userInfo}
                   onClick={() => {
                     deleteTopicHandler(topic.topic_id);
                   }}

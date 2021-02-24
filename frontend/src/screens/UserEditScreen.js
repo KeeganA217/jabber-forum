@@ -5,7 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import { useHistory } from "react-router-dom";
 import Loader from "../components/Loader";
-import { getUserComments, getUserDetails } from "../actions/userActions";
+import {
+  getUserComments,
+  getUserDetails,
+  updateUser,
+} from "../actions/userActions";
 import { USER_UPDATE_RESET } from "../constants/userConstants";
 import moment from "moment";
 
@@ -17,8 +21,6 @@ const UserEditScreen = ({ match }) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [uploading, setUploading] = useState(false);
-  const [image, setImage] = useState("");
   const [isAdmin, setIsAdmin] = useState("0");
 
   const dispatch = useDispatch();
@@ -33,44 +35,61 @@ const UserEditScreen = ({ match }) => {
     loading: loadingComments,
   } = userComments;
 
-  //   const userUpdate = useSelector((state) => state.userUpdate);
-  //   const {
-  //     loading: loadingUpdate,
-  //     error: errorUpdate,
-  //     success: successUpdate,
-  //   } = userUpdate;
+  const userUpdate = useSelector((state) => state.userUpdate);
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = userUpdate;
 
   useEffect(() => {
-    dispatch(getUserDetails(userId));
-    if (!user.first_name || user.id !== userId) {
+    if (user) {
       dispatch(getUserDetails(userId));
       dispatch(getUserComments(userId));
-    } else {
-      console.log(user);
-      // setName(user.name);
-      // setEmail(user.email);
-      // setIsAdmin(user.isAdmin);
     }
-  }, [dispatch]);
+
+    if (detailsSuccess) {
+      setFirstName(user.first_name);
+      setLastName(user.last_name);
+      setEmail(user.email);
+    }
+  }, [dispatch, userId, detailsSuccess, successUpdate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    // dispatch(
-    //   updateUser({
-    //     _id: userId,
-    //     name,
-    //     email,
-    //     isAdmin,
-    //   })
-    // );
+    dispatch(
+      updateUser({
+        id: userId,
+        firstName,
+        lastName,
+        email,
+        isAdmin,
+      })
+    );
   };
 
   return (
     <Fragment>
       <Container>
-        <Link to="/admin/userlist" className="btn btn-secondary my-3">
-          Go Back
-        </Link>
+        <Row>
+          <Col>
+            {" "}
+            <strong>Back to:</strong>
+            <Link
+              to="/admin/userlist"
+              className="btn btn-sm btn-secondary mx-2 my-3"
+            >
+              Users
+            </Link>
+            <Link
+              to="/admin/commentlist"
+              className="btn btn-sm btn-secondary my-3"
+            >
+              Comments
+            </Link>
+          </Col>
+        </Row>
+
         <h2>Edit User</h2>
         <Row>
           <Col md={3} className="my-3 mr-3">
@@ -85,7 +104,7 @@ const UserEditScreen = ({ match }) => {
                 <Form.Label>First Name</Form.Label>
                 <Form.Control
                   type="name"
-                  placeholder="Enter Name"
+                  placeholder="Enter First Name"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                 ></Form.Control>
@@ -94,7 +113,7 @@ const UserEditScreen = ({ match }) => {
                 <Form.Label>Last Name</Form.Label>
                 <Form.Control
                   type="name"
-                  placeholder="Enter Name"
+                  placeholder="Enter Last Name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                 ></Form.Control>
@@ -112,7 +131,7 @@ const UserEditScreen = ({ match }) => {
                 <Form.Check
                   type="checkbox"
                   label="Is Admin"
-                  checked={isAdmin}
+                  checked={user.isAdmin === 1}
                   onChange={(e) => setIsAdmin(e.target.checked)}
                 ></Form.Check>
               </Form.Group>

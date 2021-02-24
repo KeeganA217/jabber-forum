@@ -159,45 +159,47 @@ export const getUserComments = (id) => async (dispatch) => {
   }
 };
 
-// export const updateUserProfile = (user) => async (dispatch, getState) => {
-//   try {
-//     dispatch({
-//       type: USER_UPDATE_PROFILE_REQUEST,
-//     });
+export const updateUserProfile = (
+  id,
+  firstName,
+  lastName,
+  email,
+  password
+) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_UPDATE_PROFILE_REQUEST,
+    });
+    const url = "http://localhost:5000";
 
-//     const {
-//       userLogin: { userInfo },
-//     } = getState();
+    const { data } = await axios.put(`${url}/api/users/profile`, {
+      id,
+      firstName,
+      lastName,
+      email,
+      password,
+    });
 
-//     const config = {
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${userInfo.token}`,
-//       },
-//     };
+    dispatch({
+      type: USER_UPDATE_PROFILE_SUCCESS,
+      payload: data,
+    });
+    dispatch({
+      type: USER_LOGIN_SUCCESS,
+      payload: data,
+    });
 
-//     const { data } = await axios.put(`/api/users/profile`, user, config);
-
-//     dispatch({
-//       type: USER_UPDATE_PROFILE_SUCCESS,
-//       payload: data,
-//     });
-//     dispatch({
-//       type: USER_LOGIN_SUCCESS,
-//       payload: data,
-//     });
-
-//     localStorage.setItem("userInfo", JSON.stringify(data));
-//   } catch (error) {
-//     dispatch({
-//       type: USER_UPDATE_PROFILE_FAIL,
-//       payload:
-//         error.response && error.response.data.message
-//           ? error.response.data.message
-//           : error.message,
-//     });
-//   }
-// };
+    localStorage.setItem("userInfo", JSON.stringify(data));
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_PROFILE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
 export const listUsers = () => async (dispatch, getState) => {
   try {
@@ -232,64 +234,51 @@ export const listUsers = () => async (dispatch, getState) => {
   }
 };
 
-// export const deleteUser = (id) => async (dispatch, getState) => {
-//   try {
-//     dispatch({
-//       type: USER_DELETE_REQUEST,
-//     });
+export const deleteUser = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: USER_DELETE_REQUEST,
+    });
 
-//     const {
-//       userLogin: { userInfo },
-//     } = getState();
+    await axios.delete(`/api/users/${id}`);
 
-//     const config = {
-//       headers: {
-//         Authorization: `Bearer ${userInfo.token}`,
-//       },
-//     };
+    dispatch({ type: USER_DELETE_SUCCESS });
+  } catch (error) {
+    dispatch({
+      type: USER_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
 
-//     await axios.delete(`/api/users/${id}`, config);
+export const updateUser = (id, firstName, lastName, email, isAdmin) => async (
+  dispatch
+) => {
+  try {
+    dispatch({
+      type: USER_UPDATE_REQUEST,
+    });
 
-//     dispatch({ type: USER_DELETE_SUCCESS });
-//   } catch (error) {
-//     dispatch({
-//       type: USER_DELETE_FAIL,
-//       payload:
-//         error.response && error.response.data.message
-//           ? error.response.data.message
-//           : error.message,
-//     });
-//   }
-// };
+    const { data } = await axios.put(`/api/users/${id}`, {
+      id,
+      firstName,
+      lastName,
+      email,
+      isAdmin,
+    });
 
-// export const updateUser = (user) => async (dispatch, getState) => {
-//   try {
-//     dispatch({
-//       type: USER_UPDATE_REQUEST,
-//     });
-
-//     const {
-//       userLogin: { userInfo },
-//     } = getState();
-
-//     const config = {
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${userInfo.token}`,
-//       },
-//     };
-
-//     const { data } = await axios.put(`/api/users/${user._id}/`, user, config);
-
-//     dispatch({ type: USER_UPDATE_SUCCESS });
-//     dispatch({ type: USER_COMMENTS_SUCCESS, payload: data });
-//   } catch (error) {
-//     dispatch({
-//       type: USER_UPDATE_FAIL,
-//       payload:
-//         error.response && error.response.data.message
-//           ? error.response.data.message
-//           : error.message,
-//     });
-//   }
-// };
+    dispatch({ type: USER_UPDATE_SUCCESS });
+    dispatch({ type: USER_COMMENTS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};

@@ -44,8 +44,22 @@
   align-items: center;
   color: black !important;
   min-height: 500px;
+  background-color: #f6f6f6;
 }
 
 .topic-link {
   color: #161d6f !important;
+  font-size: larger;
+  padding: none;
+  margin: none;
+}
+
+.topic-link-accent {
+  font-size: 1.4rem;
+}
+
+.delete-button {
+  position: absolute;
+  bottom: 0px;
+  right: 20px;
 }

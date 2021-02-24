@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { Nav, Navbar, Container, NavDropdown, Image } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import LoginModal from "../modals/LoginModal";
 import { useDispatch, useSelector } from "react-redux";
 import RegisterModal from "../modals/RegisterModal";
@@ -10,6 +10,7 @@ import { userDetailsReducer } from "../reducers/userReducer";
 
 const Header = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const userLogin = useSelector((state) => state.userLogin);
 
@@ -20,6 +21,7 @@ const Header = () => {
 
   const logoutHandler = () => {
     dispatch(logout());
+    history.push("/");
   };
 
   return (
@@ -35,6 +37,9 @@ const Header = () => {
               <NavDropdown className="ml-2" title="Admin" id="adminmenu">
                 <LinkContainer to="/admin/userlist">
                   <NavDropdown.Item>Users</NavDropdown.Item>
+                </LinkContainer>
+                <LinkContainer to="/admin/commentlist">
+                  <NavDropdown.Item>Comments</NavDropdown.Item>
                 </LinkContainer>
               </NavDropdown>
             )}
