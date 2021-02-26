@@ -1,5 +1,5 @@
-import React, { Fragment, useEffect } from "react";
-import { Card, Col, Container, Row, Image } from "react-bootstrap";
+import React, { Fragment, useEffect, useState } from "react";
+import { Card, Col, Row, Button, Container, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { listNewTopics } from "../actions/topicActions";
 import { Link } from "react-router-dom";
@@ -21,7 +21,7 @@ const HomeScreen = () => {
       <Row>
         <Col lg={3} className="pr-0">
           <Card className="mx-2 p-3 topics-card">
-            <Card.Title as="div">
+            <Card.Title as="div" className="mx-auto">
               <strong>
                 <h3>Recent Topics</h3>
               </strong>
@@ -29,33 +29,45 @@ const HomeScreen = () => {
             <Card.Body>
               {loading && <Loader />}
               {error && <Message variant="danger">{error}</Message>}
-              <ul>
+              <Form>
                 {topics &&
                   topics.map((topic) => (
-                    <li key={topic.topic_id} className="py-2">
+                    <Button
+                      block
+                      key={topic.topic_id}
+                      className="py-2 btn-light"
+                    >
                       <Link
                         to={`/topics/${topic.topic_id}`}
                         className="topic-link"
                       >
                         {topic.title}
                       </Link>
-                    </li>
+                    </Button>
                   ))}
-              </ul>
+              </Form>
               <Card.Text className="mt-2">
-                <Link to="/topics" className="topic-link-accent">
-                  Browse All
-                </Link>
+                <Button block className="btn-info">
+                  <Link className="topic-link" to="/topics">
+                    Browse All
+                  </Link>
+                </Button>
               </Card.Text>
             </Card.Body>
           </Card>
         </Col>
         <Col className="pl-0">
-          <div className="intro-card mr-2">
-            <img className="img-person-left" src="images/megaphone.png" />
-            <p className="motto">Discuss Freely</p>
-            <img className="img-person-right" src="images/megaphone2.png" />
-          </div>
+          <Card>
+            <div className="intro-card mr-2">
+              <Row>
+                <p className="ml-auto">"Discuss</p>
+              </Row>
+              <Row>
+                <p className="ml-auto">Freely"</p>
+              </Row>
+              <img className="img-person-left" src="images/megaphone.png" />
+            </div>
+          </Card>
         </Col>
       </Row>
     </Fragment>

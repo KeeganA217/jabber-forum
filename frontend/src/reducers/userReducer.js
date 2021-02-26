@@ -28,6 +28,7 @@ import {
   USER_COMMENTS_FAIL,
   USER_COMMENTS_REQUEST,
   USER_COMMENTS_SUCCESS,
+  USER_COMMENTS_RESET,
 } from "../constants/userConstants";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -83,6 +84,8 @@ export const userCommentsReducer = (state = { comments: [] }, action) => {
       return { loading: false, success: true, comments: action.payload };
     case USER_COMMENTS_FAIL:
       return { loading: false, error: action.payload };
+    case USER_COMMENTS_RESET:
+      return { comments: [] };
     default:
       return state;
   }

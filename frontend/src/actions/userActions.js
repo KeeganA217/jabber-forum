@@ -270,8 +270,7 @@ export const updateUser = (id, firstName, lastName, email, isAdmin) => async (
       isAdmin,
     });
 
-    dispatch({ type: USER_UPDATE_SUCCESS });
-    dispatch({ type: USER_COMMENTS_SUCCESS, payload: data });
+    dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
       type: USER_UPDATE_FAIL,

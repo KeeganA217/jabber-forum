@@ -12,44 +12,27 @@
 
 .intro-card {
   width: auto;
-  height: 500px;
+  height: 450px;
   background-color: #98ded9;
 }
 
 .img-person-left {
   position: absolute;
-  top: 220px;
-  left: 80px;
+  top: 190px;
+  left: 50px;
   height: 250px;
 }
 
-.img-person-right {
-  position: absolute;
-  top: 220px;
-  right: 130px;
-  height: 250px;
-}
-
-.motto {
+.intro-card p {
   font-size: 6rem;
-  display: flex;
-  justify-content: center;
-  padding-top: 4rem;
 }
 
-.topics-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: black !important;
-  min-height: 500px;
+.home-card {
   background-color: #f6f6f6;
 }
 
 .topic-link {
   color: #161d6f !important;
-  font-size: larger;
   padding: none;
   margin: none;
 }

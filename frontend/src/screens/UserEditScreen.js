@@ -1,16 +1,19 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Form, Button, Container, Row, Col, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
-import { useHistory } from "react-router-dom";
 import Loader from "../components/Loader";
 import {
   getUserComments,
   getUserDetails,
   updateUser,
 } from "../actions/userActions";
-import { USER_UPDATE_RESET } from "../constants/userConstants";
+import {
+  USER_COMMENTS_RESET,
+  USER_DETAILS_RESET,
+  USER_UPDATE_RESET,
+} from "../constants/userConstants";
 import moment from "moment";
 
 const UserEditScreen = ({ match }) => {
@@ -21,7 +24,7 @@ const UserEditScreen = ({ match }) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [isAdmin, setIsAdmin] = useState("0");
+  const [isAdmin, setIsAdmin] = useState("");
 
   const dispatch = useDispatch();
 
@@ -43,17 +46,20 @@ const UserEditScreen = ({ match }) => {
   } = userUpdate;
 
   useEffect(() => {
-    if (user) {
-      dispatch(getUserDetails(userId));
-      dispatch(getUserComments(userId));
-    }
+    loadDetails(userId);
 
     if (detailsSuccess) {
       setFirstName(user.first_name);
       setLastName(user.last_name);
       setEmail(user.email);
+      setIsAdmin(user.isAdmin);
     }
-  }, [dispatch, userId, detailsSuccess, successUpdate]);
+  }, [dispatch, detailsSuccess]);
+
+  const loadDetails = (id) => {
+    dispatch(getUserDetails(id));
+    dispatch(getUserComments(id));
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -66,6 +72,7 @@ const UserEditScreen = ({ match }) => {
         isAdmin,
       })
     );
+    history.push("/admin/userlist");
   };
 
   return (
@@ -128,11 +135,18 @@ const UserEditScreen = ({ match }) => {
                 ></Form.Control>
               </Form.Group>
               <Form.Group controlId="isadmin">
+                <Form.Label>Is Admin?</Form.Label>
                 <Form.Check
                   type="checkbox"
-                  label="Is Admin"
-                  checked={user.isAdmin === 1}
-                  onChange={(e) => setIsAdmin(e.target.checked)}
+                  label="Yes"
+                  checked={isAdmin === 1}
+                  onChange={(e) => setIsAdmin(1)}
+                ></Form.Check>
+                <Form.Check
+                  type="checkbox"
+                  label="No"
+                  checked={isAdmin === 0}
+                  onChange={(e) => setIsAdmin(0)}
                 ></Form.Check>
               </Form.Group>
               <Button type="submit" variant="primary" block>
@@ -145,7 +159,7 @@ const UserEditScreen = ({ match }) => {
               Member since {moment(user.joined_on).format("dddd, MMMM Do YYYY")}
             </p>
             <h3>Topics &amp; Comments</h3>
-            <Table striped hover responsive bordered className="table-sm">
+            <Table striped hover responsive bordered className="table-sm mb-5">
               <thead>
                 <tr>
                   <th>DATE POSTED</th>
@@ -154,7 +168,12 @@ const UserEditScreen = ({ match }) => {
                 </tr>
               </thead>
               <tbody>
+                {loadingComments && <Loader />}
+                {errorComments && (
+                  <Message variant="danger">{errorComments}</Message>
+                )}
                 {comments &&
+                  comments.length !== 0 &&
                   comments.map((comment) => (
                     <tr key={comment.comment_id}>
                       <td>
@@ -170,6 +189,11 @@ const UserEditScreen = ({ match }) => {
                   ))}
               </tbody>
             </Table>
+            {comments.length === 0 && (
+              <Message className="mt-5" variant="secondary">
+                This User has not posted any comments yet.
+              </Message>
+            )}
           </Col>
         </Row>
         <Row>

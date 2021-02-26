@@ -6,7 +6,11 @@ import { useHistory } from "react-router-dom";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listUsers, deleteUser } from "../actions/userActions";
-import { USER_DETAILS_RESET } from "../constants/userConstants";
+import {
+  USER_DETAILS_RESET,
+  USER_UPDATE_RESET,
+  USER_COMMENTS_RESET,
+} from "../constants/userConstants";
 import moment from "moment";
 
 const UserListScreen = () => {
@@ -27,10 +31,10 @@ const UserListScreen = () => {
     if (userInfo && userInfo.isAdmin === 1) {
       dispatch(listUsers());
       dispatch({ type: USER_DETAILS_RESET });
+      dispatch({ type: USER_UPDATE_RESET });
+      dispatch({ type: USER_COMMENTS_RESET });
     } else if (!userInfo) {
       history.push("/");
-    } else {
-      history.push("/login");
     }
   }, [dispatch, userInfo, history, successDelete]);
 
