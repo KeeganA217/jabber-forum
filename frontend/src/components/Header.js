@@ -1,5 +1,13 @@
 import React, { Fragment, useState } from "react";
-import { Nav, Navbar, Container, NavDropdown, Image } from "react-bootstrap";
+import {
+  Nav,
+  Navbar,
+  Container,
+  NavDropdown,
+  Image,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import LoginModal from "../modals/LoginModal";
@@ -62,16 +70,26 @@ const Header = () => {
                     Logout
                   </NavDropdown.Item>
                 </NavDropdown>
-                <Link to="/profile" style={{ width: "50px", height: "50px" }}>
-                  <Image
-                    to="/profile"
-                    fluid
-                    thumbnail
-                    roundedCircle
-                    src={
-                      !userInfo.image ? "images/default.png" : userInfo.image
-                    }
-                  />
+                <Link
+                  to="/profile"
+                  // className="mb-3"
+                >
+                  <OverlayTrigger
+                    key={"bottom"}
+                    placement={"bottom"}
+                    overlay={<Tooltip id={`bottom`}>Update Image</Tooltip>}
+                  >
+                    <Image
+                      style={{ width: "60px", height: "60px" }}
+                      to="/profile"
+                      fluid
+                      thumbnail
+                      roundedCircle
+                      src={
+                        !userInfo.image ? "images/default.png" : userInfo.image
+                      }
+                    />
+                  </OverlayTrigger>
                 </Link>
               </Fragment>
             ) : (

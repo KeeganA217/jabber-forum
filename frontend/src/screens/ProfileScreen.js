@@ -14,11 +14,13 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import {
   getUserComments,
-  updateUserProfile,
-  getUserDetails,
+  updateOwnProfile,
+  deleteUser,
+  logout,
 } from "../actions/userActions";
 import axios from "axios";
 import moment from "moment";
+import { USER_LOGOUT } from "../constants/userConstants";
 
 const ProfileScreen = () => {
   const history = useHistory();
@@ -36,13 +38,8 @@ const ProfileScreen = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo, error, loading } = userLogin;
 
-  const userDetails = useSelector((state) => state.userDetails);
-  const {
-    loading: loadingDetails,
-    error: errorDetails,
-    success: successDetails,
-    user,
-  } = userDetails;
+  const userDelete = useSelector((state) => state.userDelete);
+  const { success: deleteSuccess } = userDelete;
 
   const userComments = useSelector((state) => state.userComments);
   const {
@@ -58,19 +55,13 @@ const ProfileScreen = () => {
     if (!userInfo) {
       history.push("/");
     }
-    loadDetails(userInfo.id);
+    dispatch(getUserComments(userInfo.id));
 
-    if (successDetails) {
-      setFirstName(userInfo.first_name);
-      setLastName(userInfo.last_name);
-      setEmail(userInfo.email);
-    }
-  }, [dispatch, userInfo, successDetails]);
-
-  const loadDetails = (id) => {
-    dispatch(getUserDetails(id));
-    dispatch(getUserComments(id));
-  };
+    setFirstName(userInfo.first_name);
+    setLastName(userInfo.last_name);
+    setEmail(userInfo.email);
+    setImage(userInfo.image);
+  }, [dispatch, userInfo]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -86,14 +77,17 @@ const ProfileScreen = () => {
       }, 3000);
     } else {
       dispatch(
-        updateUserProfile({
+        updateOwnProfile({
           id: userInfo.id,
           firstName,
           lastName,
           email,
           password,
+          image,
         })
       );
+      setPassword("");
+      setConfirmPassword("");
     }
   };
 
@@ -119,7 +113,21 @@ const ProfileScreen = () => {
     }
   };
 
-  const deleteHandler = () => {};
+  const deleteHandler = () => {
+    if (
+      window.confirm(
+        "Are you sure you want to permanently delete this account?"
+      )
+    ) {
+      dispatch(deleteUser(userInfo.id));
+    }
+
+    if (deleteSuccess) {
+      dispatch(logout);
+      dispatch({ type: USER_LOGOUT });
+      history.push("/");
+    }
+  };
 
   return (
     <Container>
@@ -132,8 +140,12 @@ const ProfileScreen = () => {
           <Image
             to="/profile"
             fluid
-            thumbnail
-            roundedCircle
+            rounded
+            style={{
+              height: "225px",
+              width: "265px",
+              border: "2px solid black",
+            }}
             src={
               userInfo && !userInfo.image
                 ? "images/default.png"

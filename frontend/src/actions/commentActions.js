@@ -39,7 +39,7 @@ export const listAllTopicComments = (id) => async (dispatch) => {
   }
 };
 
-export const listComments = (id) => async (dispatch) => {
+export const listComments = (id) => async (dispatch, getState) => {
   try {
     dispatch({
       type: LIST_ALL_COMMENTS_REQUEST,
@@ -47,7 +47,19 @@ export const listComments = (id) => async (dispatch) => {
 
     const url = "http://localhost:5000";
 
-    const { data } = await axios.get(`${url}/api/comments`);
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+        isadmin: `${userInfo.isAdmin}`,
+      },
+    };
+
+    const { data } = await axios.get(`${url}/api/comments`, config);
 
     dispatch({
       type: LIST_ALL_COMMENTS_SUCCESS,
@@ -64,7 +76,10 @@ export const listComments = (id) => async (dispatch) => {
   }
 };
 
-export const createNewComment = (comment, topic_id, id) => async (dispatch) => {
+export const createNewComment = (comment, topic_id, id) => async (
+  dispatch,
+  getState
+) => {
   try {
     dispatch({
       type: NEW_COMMENT_REQUEST,
@@ -72,11 +87,26 @@ export const createNewComment = (comment, topic_id, id) => async (dispatch) => {
 
     const url = "http://localhost:5000";
 
-    const { data } = await axios.post(`${url}/api/comments`, {
-      comment,
-      topic_id,
-      id,
-    });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${url}/api/comments`,
+      {
+        comment,
+        topic_id,
+        id,
+      },
+      config
+    );
 
     dispatch({
       type: NEW_COMMENT_SUCCESS,
@@ -93,7 +123,7 @@ export const createNewComment = (comment, topic_id, id) => async (dispatch) => {
   }
 };
 
-export const removeComment = (id) => async (dispatch) => {
+export const removeComment = (id) => async (dispatch, getState) => {
   try {
     dispatch({
       type: DELETE_COMMENT_REQUEST,
@@ -101,7 +131,19 @@ export const removeComment = (id) => async (dispatch) => {
 
     const url = "http://localhost:5000";
 
-    const { data } = await axios.delete(`${url}/api/comments/${id}`);
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+        isadmin: `${userInfo.isAdmin}`,
+      },
+    };
+
+    const { data } = await axios.delete(`${url}/api/comments/${id}`, config);
 
     dispatch({
       type: DELETE_COMMENT_SUCCESS,

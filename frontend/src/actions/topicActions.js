@@ -17,15 +17,30 @@ import {
 } from "../constants/topicConstants";
 import axios from "axios";
 
-export const createNewTopic = (title, id) => async (dispatch) => {
+export const createNewTopic = (title, id) => async (dispatch, getState) => {
   try {
     dispatch({
       type: ADD_NEW_TOPIC_REQUEST,
     });
 
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
     const url = "http://localhost:5000";
 
-    const { data } = await axios.post(`${url}/api/topics`, { title, id });
+    const { data } = await axios.post(
+      `${url}/api/topics`,
+      { title, id },
+      config
+    );
 
     dispatch({
       type: ADD_NEW_TOPIC_SUCCESS,
@@ -115,13 +130,25 @@ export const listTopicDetails = (id) => async (dispatch) => {
   }
 };
 
-export const deleteTopic = (id) => async (dispatch) => {
+export const deleteTopic = (id) => async (dispatch, getState) => {
   try {
     dispatch({
       type: TOPIC_DELETE_REQUEST,
     });
 
-    await axios.delete(`/api/topics/${id}`);
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+        isadmin: `${userInfo.isAdmin}`,
+      },
+    };
+
+    await axios.delete(`/api/topics/${id}`, config);
 
     dispatch({ type: TOPIC_DELETE_SUCCESS });
   } catch (error) {

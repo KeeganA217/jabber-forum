@@ -2,6 +2,7 @@ import mysql from "mysql";
 import { db } from "../config/db.js";
 import bcrypt from "bcrypt";
 import asyncHandler from "express-async-handler";
+import generateToken from "../utils/generateToken.js";
 
 const connection = mysql.createConnection(db);
 
@@ -42,6 +43,7 @@ const registerUser = asyncHandler(async (req, res) => {
                 email: email,
                 isAdmin: "0",
                 image: null,
+                token: generateToken(insertId),
               });
             }
           }
@@ -74,6 +76,7 @@ const loginUser = asyncHandler(async (req, res) => {
             email: result[0].email,
             isAdmin: result[0].isAdmin,
             image: result[0].image,
+            token: generateToken(result[0].id),
           });
         } else {
           res.status(400);
@@ -85,28 +88,28 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 // UPDATE YOUR OWN PROFILE INFO
-const updateUserProfile = asyncHandler(async (req, res) => {
-  const { firstName, lastName, email, password, id } = req.body.id;
+const updateOwnProfile = asyncHandler(async (req, res) => {
+  const { firstName, lastName, email, password, image, id } = req.body.id;
   const salt = 10;
 
   await bcrypt.hash(password, salt, (error, hash) => {
     if (error) {
       console.log(error);
     }
-    let sql = `UPDATE users SET first_name = ?, last_name = ?, email = ?, password = ?
+    let sql = `UPDATE users SET first_name = ?, last_name = ?, email = ?, password = ?, image = ?
     WHERE id = ?;`;
 
     connection.query(
       sql,
-      [firstName, lastName, email, hash, id],
+      [firstName, lastName, email, hash, image, id],
       (err, result) => {
         if (err) {
           res.send(err);
           console.log(err);
         } else {
-          let sqlFind = `SELECT * FROM users WHERE email = ?;`;
+          let sqlFind = `SELECT * FROM users WHERE id = ?;`;
 
-          connection.query(sqlFind, email, (err, result) => {
+          connection.query(sqlFind, id, (err, result) => {
             if (err) {
               res.send(err);
               console.log(err);
@@ -118,6 +121,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
                 email: result[0].email,
                 isAdmin: result[0].isAdmin,
                 image: result[0].image,
+                token: generateToken(result[0].id),
               });
             }
           });
@@ -132,7 +136,6 @@ const updateUser = asyncHandler(async (req, res) => {
   const { firstName, lastName, email, isAdmin, id } = req.body.id;
   let sql = `UPDATE users SET first_name = ?, last_name = ?, email = ?, isAdmin = ?
     WHERE id = ?;`;
-
   await connection.query(
     sql,
     [firstName, lastName, email, isAdmin, id],
@@ -142,7 +145,6 @@ const updateUser = asyncHandler(async (req, res) => {
         console.log(err);
       } else {
         let sqlFind = `SELECT * FROM users WHERE id = ?;`;
-
         connection.query(sqlFind, id, (err, result) => {
           if (err) {
             res.send(err);
@@ -154,6 +156,7 @@ const updateUser = asyncHandler(async (req, res) => {
               last_name: result[0].last_name,
               email: result[0].email,
               isAdmin: result[0].isAdmin,
+              token: generateToken(result[0].id),
             });
           }
         });
@@ -179,6 +182,7 @@ const getSingleUser = asyncHandler(async (req, res) => {
         email: result[0].email,
         isAdmin: result[0].isAdmin,
         image: result[0].image,
+        token: generateToken(result[0].id),
         joined_on: result[0].joined_on,
       });
     }
@@ -218,6 +222,6 @@ export {
   deleteUser,
   listAllUsers,
   getSingleUser,
-  updateUserProfile,
+  updateOwnProfile,
   updateUser,
 };
