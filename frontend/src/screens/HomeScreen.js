@@ -12,9 +12,12 @@ const HomeScreen = () => {
   const listRecentTopics = useSelector((state) => state.listRecentTopics);
   const { loading, error, topics } = listRecentTopics;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   useEffect(() => {
     dispatch(listNewTopics());
-  }, []);
+  }, [userInfo]);
 
   return (
     <Fragment>
@@ -56,19 +59,19 @@ const HomeScreen = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col className="pl-0">
+        {/* <Col className="pl-0">
           <Card>
             <div className="intro-card mr-2">
               <Row>
-                <p className="ml-auto">"Discuss</p>
+                <p className="ml-auto mr-5 my-0 py-0">"Discuss</p>
               </Row>
               <Row>
-                <p className="ml-auto">Freely"</p>
+                <p className="ml-auto mr-5 p-0 my-0">Freely"</p>
               </Row>
               <img className="img-person-left" src="images/megaphone.png" />
             </div>
           </Card>
-        </Col>
+        </Col> */}
       </Row>
     </Fragment>
   );

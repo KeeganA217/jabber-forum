@@ -116,12 +116,11 @@ const ProfileScreen = () => {
   const deleteHandler = () => {
     if (
       window.confirm(
-        "Are you sure you want to permanently delete this account?"
+        "Are you sure you want to permanently delete this account and all of the associated comments??"
       )
     ) {
       dispatch(deleteUser(userInfo.id));
     }
-
     if (deleteSuccess) {
       dispatch(logout);
       dispatch({ type: USER_LOGOUT });
@@ -161,7 +160,7 @@ const ProfileScreen = () => {
             )}
           </p>
           <h3> My Comments</h3>
-          <Table striped hover responsive bordered className="table-sm">
+          <Table hover responsive bordered className="table-sm table-dark">
             <thead>
               <tr>
                 <th>DATE POSTED</th>

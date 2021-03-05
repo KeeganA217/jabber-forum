@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import {
   Nav,
   Navbar,
@@ -14,18 +14,22 @@ import LoginModal from "../modals/LoginModal";
 import { useDispatch, useSelector } from "react-redux";
 import RegisterModal from "../modals/RegisterModal";
 import { logout } from "../actions/userActions";
-import { userDetailsReducer } from "../reducers/userReducer";
 
 const Header = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
   const userLogin = useSelector((state) => state.userLogin);
-
   const { userInfo } = userLogin;
 
   const [show, setShow] = useState("");
   const handleClose = () => setShow(false);
+
+  useEffect(() => {
+    if (!userInfo) {
+      history.push("/");
+    }
+  }, [userInfo]);
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -40,8 +44,10 @@ const Header = () => {
             <h2 className="main-title">Jabber</h2>
           </Navbar.Brand>
           <Nav>
-            <Nav.Link href="/topics">Topics</Nav.Link>
-            {userInfo && userInfo.isAdmin === 1 && (
+            <LinkContainer to="/topics">
+              <Nav.Link>Topics</Nav.Link>
+            </LinkContainer>
+            {/* {userInfo && userInfo.isAdmin === 1 && (
               <NavDropdown className="ml-2" title="Admin" id="adminmenu">
                 <LinkContainer to="/admin/userlist">
                   <NavDropdown.Item>Users</NavDropdown.Item>
@@ -50,14 +56,10 @@ const Header = () => {
                   <NavDropdown.Item>Comments</NavDropdown.Item>
                 </LinkContainer>
               </NavDropdown>
-            )}
+            )} */}
             {userInfo ? (
               <Fragment>
-                <NavDropdown
-                  title={userInfo.first_name}
-                  id="username"
-                  className="mr-4"
-                >
+                <NavDropdown title={userInfo.first_name} className="mr-4">
                   <LinkContainer to="/">
                     <NavDropdown.Item>Home</NavDropdown.Item>
                   </LinkContainer>
@@ -70,10 +72,7 @@ const Header = () => {
                     Logout
                   </NavDropdown.Item>
                 </NavDropdown>
-                <Link
-                  to="/profile"
-                  // className="mb-3"
-                >
+                {/* <LinkContainer to="/profile">
                   <OverlayTrigger
                     key={"bottom"}
                     placement={"bottom"}
@@ -90,16 +89,23 @@ const Header = () => {
                       }
                     />
                   </OverlayTrigger>
-                </Link>
+                </LinkContainer> */}
               </Fragment>
             ) : (
               <Fragment>
-                <Nav.Link className="mr-1" onClick={() => setShow("modal-one")}>
-                  Login
-                </Nav.Link>
-                <Nav.Link onClick={() => setShow("modal-two")}>
-                  Sign up
-                </Nav.Link>
+                <LinkContainer>
+                  <Nav.Link
+                    onClick={() => setShow("modal-one")}
+                    className="mr-1"
+                  >
+                    Login
+                  </Nav.Link>
+                </LinkContainer>
+                <LinkContainer>
+                  <Nav.Link onClick={() => setShow("modal-two")}>
+                    Sign up
+                  </Nav.Link>
+                </LinkContainer>
               </Fragment>
             )}
           </Nav>

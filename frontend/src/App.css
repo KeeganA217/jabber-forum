@@ -2,6 +2,10 @@
   --main-accent-color: #c7ffd8;
 }
 
+body {
+  background-color: #98ded9;
+}
+
 .navbar-main {
   background-color: #161d6f;
 }
@@ -23,18 +27,14 @@
   height: 250px;
 }
 
-.intro-card p {
-  font-size: 6rem;
-}
-
-.home-card {
-  background-color: #f6f6f6;
-}
-
 .topic-link {
   color: #161d6f !important;
   padding: none;
   margin: none;
+}
+
+.topics-card {
+  box-shadow: 6px 7px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
 .topic-link-accent {

@@ -63,7 +63,7 @@ const UserListScreen = () => {
         ) : error ? (
           <Message variant="danger">{error}</Message>
         ) : (
-          <Table striped hover responsive bordered className="table-sm">
+          <Table hover responsive bordered className="table-sm table-dark">
             <thead>
               <tr>
                 <th>ID</th>

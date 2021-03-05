@@ -159,7 +159,12 @@ const UserEditScreen = ({ match }) => {
               Member since {moment(user.joined_on).format("dddd, MMMM Do YYYY")}
             </p>
             <h3>Topics &amp; Comments</h3>
-            <Table striped hover responsive bordered className="table-sm mb-5">
+            <Table
+              hover
+              responsive
+              bordered
+              className="table-sm mb-5 table-dark"
+            >
               <thead>
                 <tr>
                   <th>DATE POSTED</th>

@@ -323,6 +323,7 @@ export const updateUser = (id, firstName, lastName, email, isAdmin) => async (
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.token}`,
+        isAdmin: `${userInfo.isAdmin}`,
       },
     };
 
