@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState } from "react";
 import {
   Nav,
   Navbar,
@@ -9,7 +9,7 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import LoginModal from "../modals/LoginModal";
 import { useDispatch, useSelector } from "react-redux";
 import RegisterModal from "../modals/RegisterModal";
@@ -25,12 +25,6 @@ const Header = () => {
   const [show, setShow] = useState("");
   const handleClose = () => setShow(false);
 
-  useEffect(() => {
-    if (!userInfo) {
-      history.push("/");
-    }
-  }, [userInfo]);
-
   const logoutHandler = () => {
     dispatch(logout());
     history.push("/");
@@ -41,14 +35,14 @@ const Header = () => {
       <Navbar variant="dark" className="mb-2 navbar-main">
         <Container>
           <Navbar.Brand href="/" className="my-0 py-0">
-            <h2 className="main-title">Jabber</h2>
+            <h1 className="main-title">Jabber</h1>
           </Navbar.Brand>
           <Nav>
-            <LinkContainer to="/topics">
+            <LinkContainer to="/topics" className="mt-3">
               <Nav.Link>Topics</Nav.Link>
             </LinkContainer>
-            {/* {userInfo && userInfo.isAdmin === 1 && (
-              <NavDropdown className="ml-2" title="Admin" id="adminmenu">
+            {userInfo && userInfo.isAdmin === 1 && (
+              <NavDropdown className="ml-2 mt-3" title="Admin" id="adminmenu">
                 <LinkContainer to="/admin/userlist">
                   <NavDropdown.Item>Users</NavDropdown.Item>
                 </LinkContainer>
@@ -56,10 +50,10 @@ const Header = () => {
                   <NavDropdown.Item>Comments</NavDropdown.Item>
                 </LinkContainer>
               </NavDropdown>
-            )} */}
-            {userInfo ? (
+            )}
+            {userInfo && userInfo.first_name ? (
               <Fragment>
-                <NavDropdown title={userInfo.first_name} className="mr-4">
+                <NavDropdown title={userInfo.first_name} className="mr-4 mt-3">
                   <LinkContainer to="/">
                     <NavDropdown.Item>Home</NavDropdown.Item>
                   </LinkContainer>
@@ -72,7 +66,7 @@ const Header = () => {
                     Logout
                   </NavDropdown.Item>
                 </NavDropdown>
-                {/* <LinkContainer to="/profile">
+                <Nav.Link href="/profile">
                   <OverlayTrigger
                     key={"bottom"}
                     placement={"bottom"}
@@ -82,30 +76,29 @@ const Header = () => {
                       style={{ width: "60px", height: "60px" }}
                       to="/profile"
                       fluid
-                      thumbnail
                       roundedCircle
                       src={
                         !userInfo.image ? "images/default.png" : userInfo.image
                       }
                     />
                   </OverlayTrigger>
-                </LinkContainer> */}
+                </Nav.Link>
               </Fragment>
             ) : (
               <Fragment>
-                <LinkContainer>
+                <Nav.Item>
                   <Nav.Link
                     onClick={() => setShow("modal-one")}
                     className="mr-1"
                   >
                     Login
                   </Nav.Link>
-                </LinkContainer>
-                <LinkContainer>
+                </Nav.Item>
+                <Nav.Item>
                   <Nav.Link onClick={() => setShow("modal-two")}>
                     Sign up
                   </Nav.Link>
-                </LinkContainer>
+                </Nav.Item>
               </Fragment>
             )}
           </Nav>

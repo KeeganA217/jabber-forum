@@ -1,13 +1,13 @@
 :root {
-  --main-accent-color: #c7ffd8;
+  --main-accent-color: #d3e0ea;
 }
 
 body {
-  background-color: #98ded9;
+  background-color: #f6f5f5;
 }
 
 .navbar-main {
-  background-color: #161d6f;
+  background-color: #1687a7;
 }
 
 .main-title {
@@ -27,14 +27,14 @@ body {
   height: 250px;
 }
 
-.topic-link {
-  color: #161d6f !important;
-  padding: none;
-  margin: none;
+.browse-btn {
+  background-color: var(--main-accent-color);
+  border: none;
+  color: black;
 }
 
 .topics-card {
-  box-shadow: 6px 7px 10px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 6px 7px 7px 0px rgba(0, 0, 0, 0.2);
 }
 
 .topic-link-accent {
@@ -45,4 +45,8 @@ body {
   position: absolute;
   bottom: 0px;
   right: 20px;
+}
+
+img {
+  border: 2px solid black !important;
 }

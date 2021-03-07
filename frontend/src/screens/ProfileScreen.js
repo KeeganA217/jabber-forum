@@ -160,7 +160,13 @@ const ProfileScreen = () => {
             )}
           </p>
           <h3> My Comments</h3>
-          <Table hover responsive bordered className="table-sm table-dark">
+          <Table
+            hover
+            striped
+            responsive
+            bordered
+            className="table-sm table-light"
+          >
             <thead>
               <tr>
                 <th>DATE POSTED</th>

@@ -36,24 +36,18 @@ const HomeScreen = () => {
                 {topics &&
                   topics.map((topic) => (
                     <Button
+                      href={`/topics/${topic.topic_id}`}
                       block
                       key={topic.topic_id}
                       className="py-2 btn-light"
                     >
-                      <Link
-                        to={`/topics/${topic.topic_id}`}
-                        className="topic-link"
-                      >
-                        {topic.title}
-                      </Link>
+                      {topic.title}
                     </Button>
                   ))}
               </Form>
               <Card.Text className="mt-2">
-                <Button block className="btn-info">
-                  <Link className="topic-link" to="/topics">
-                    Browse All
-                  </Link>
+                <Button block className="btn browse-btn" href="/topics">
+                  Browse All
                 </Button>
               </Card.Text>
             </Card.Body>

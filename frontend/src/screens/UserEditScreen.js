@@ -163,7 +163,8 @@ const UserEditScreen = ({ match }) => {
               hover
               responsive
               bordered
-              className="table-sm mb-5 table-dark"
+              striped
+              className="table-sm mb-5 table-light"
             >
               <thead>
                 <tr>

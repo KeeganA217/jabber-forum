@@ -57,7 +57,13 @@ const CommentListScreen = () => {
         ) : error ? (
           <Message variant="danger">{error}</Message>
         ) : (
-          <Table hover responsive bordered className="table-sm table-dark">
+          <Table
+            hover
+            striped
+            responsive
+            bordered
+            className="table-sm table-light"
+          >
             <thead>
               <tr>
                 <th>ID</th>
