@@ -10,6 +10,7 @@ import CreateCommentModal from "../modals/CreateCommentModal";
 import { ListGroup, Container, Col, Row, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import ReactPaginate from "react-paginate";
 
 const SingleTopicScreen = ({ match }) => {
   const history = useHistory();
@@ -17,6 +18,10 @@ const SingleTopicScreen = ({ match }) => {
 
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
+  const [pageNumber, setPageNumber] = useState(0);
+
+  const commentsPerPage = 20;
+  const pagesVisited = pageNumber * commentsPerPage;
 
   const topicDetails = useSelector((state) => state.topicDetails);
   const { loading, error, topic } = topicDetails;
@@ -69,6 +74,9 @@ const SingleTopicScreen = ({ match }) => {
       dispatch(removeComment(id));
     }
   };
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
 
   return (
     <Fragment>
@@ -104,40 +112,45 @@ const SingleTopicScreen = ({ match }) => {
                     </h4>
                   )}
                   {comments &&
-                    comments.map((comment) => (
-                      <ListGroup.Item className="p-2" key={comment.comment_id}>
-                        <Row className="ml-3 mb-2">
-                          <h5>{comment.comment}</h5>
-                        </Row>
-                        <Row>
-                          <Col className="pt-2 ml-4">
-                            <small>
-                              Posted by{" "}
-                              <strong>
-                                {comment.first_name} {comment.last_name}
-                              </strong>{" "}
-                              on{" "}
-                              {moment(comment.date_added).format(
-                                "dddd, MMMM Do YYYY, h:mm:ss a"
+                    comments
+                      .slice(pagesVisited, pagesVisited + commentsPerPage)
+                      .map((comment) => (
+                        <ListGroup.Item
+                          className="p-2"
+                          key={comment.comment_id}
+                        >
+                          <Row className="ml-3 mb-2 pr-4">
+                            <h5>{comment.comment}</h5>
+                          </Row>
+                          <Row>
+                            <Col className="pt-2 ml-4">
+                              <small>
+                                Posted by{" "}
+                                <strong>
+                                  {comment.first_name} {comment.last_name}
+                                </strong>{" "}
+                                on{" "}
+                                {moment(comment.date_added).format(
+                                  "dddd, MMMM Do YYYY, h:mm:ss a"
+                                )}
+                              </small>
+                            </Col>
+                            <Col md={2}>
+                              {" "}
+                              {userInfo && userInfo.isAdmin === 1 && (
+                                <Button
+                                  onClick={() => {
+                                    deleteCommentHandler(comment.comment_id);
+                                  }}
+                                  className="delete-button btn-danger"
+                                >
+                                  <i className="fas fa-trash"></i>
+                                </Button>
                               )}
-                            </small>
-                          </Col>
-                          <Col md={2}>
-                            {" "}
-                            {userInfo && userInfo.isAdmin === 1 && (
-                              <Button
-                                onClick={() => {
-                                  deleteCommentHandler(comment.comment_id);
-                                }}
-                                className="delete-button btn-danger"
-                              >
-                                <i className="fas fa-trash"></i>
-                              </Button>
-                            )}
-                          </Col>
-                        </Row>
-                      </ListGroup.Item>
-                    ))}
+                            </Col>
+                          </Row>
+                        </ListGroup.Item>
+                      ))}
                 </ListGroup>
               </Col>
               <Col>
@@ -175,6 +188,27 @@ const SingleTopicScreen = ({ match }) => {
             </Row>
           </Fragment>
         )}
+        <Row>
+          {comments && comments.length !== 0 && (
+            <Col md={8} className="paginate-col">
+              <ReactPaginate
+                previousLabel={"Prev"}
+                nextLabel={"Next"}
+                pageCount={
+                  comments && Math.ceil(comments.length / commentsPerPage)
+                }
+                onPageChange={changePage}
+                pageRangeDisplayed={5}
+                containerClassName={"pagination-btns"}
+                activeClassName={"active-btn"}
+                previousClassName={"previous-btn"}
+                nextClassName={"next-btn"}
+                pageClassName={"page-btns"}
+                disabledClassName={"disabled-btn"}
+              />
+            </Col>
+          )}
+        </Row>
       </Container>
       <CreateCommentModal show={show} handleClose={handleClose} />
     </Fragment>

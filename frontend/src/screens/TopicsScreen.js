@@ -7,6 +7,7 @@ import { listAllTopics, deleteTopic } from "../actions/topicActions";
 import { ListGroup, Container, Col, Row, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import ReactPaginate from "react-paginate";
 
 const TopicsScreen = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,10 @@ const TopicsScreen = () => {
   const [searchTerm, SetSearchTerm] = useState("");
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState("");
+  const [pageNumber, setPageNumber] = useState(0);
+
+  const topicsPerPage = 10;
+  const pagesVisited = pageNumber * topicsPerPage;
 
   const getAllTopics = useSelector((state) => state.getAllTopics);
   const { loading, error, topics } = getAllTopics;
@@ -49,10 +54,14 @@ const TopicsScreen = () => {
     }
   };
 
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
+
   return (
     <Fragment>
       <Container>
-        <Row className="mt-4 mb-5">
+        <Row className="mt-4 mb-3">
           <Col md={8}>
             <h1>Current Open Topics</h1>
             <Form>
@@ -72,6 +81,7 @@ const TopicsScreen = () => {
 
               {topics &&
                 topics
+                  .slice(pagesVisited, pagesVisited + topicsPerPage)
                   .filter((topic) => {
                     if (searchTerm == "") {
                       return topic;
@@ -124,6 +134,23 @@ const TopicsScreen = () => {
                 {message}
               </Message>
             )}
+          </Col>
+        </Row>
+        <Row>
+          <Col md={8} className="paginate-col">
+            <ReactPaginate
+              previousLabel={"Prev"}
+              nextLabel={"Next"}
+              pageCount={topics && Math.ceil(topics.length / topicsPerPage)}
+              onPageChange={changePage}
+              pageRangeDisplayed={5}
+              containerClassName={"pagination-btns"}
+              activeClassName={"active-btn"}
+              previousClassName={"previous-btn"}
+              nextClassName={"next-btn"}
+              pageClassName={"page-btns"}
+              disabledClassName={"disabled-btn"}
+            />
           </Col>
         </Row>
       </Container>

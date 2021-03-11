@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Button, Container, Table, Form } from "react-bootstrap";
+import { Button, Container, Table, Form, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Message from "../components/Message";
@@ -12,11 +12,16 @@ import {
   USER_COMMENTS_RESET,
 } from "../constants/userConstants";
 import moment from "moment";
+import ReactPaginate from "react-paginate";
 
 const UserListScreen = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [searchTerm, SetSearchTerm] = useState("");
+  const [pageNumber, setPageNumber] = useState(0);
+
+  const usersPerPage = 10;
+  const pagesVisited = pageNumber * usersPerPage;
 
   const userList = useSelector((state) => state.userList);
   const { loading, error, users } = userList;
@@ -42,6 +47,10 @@ const UserListScreen = () => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       dispatch(deleteUser(id));
     }
+  };
+
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
   };
   return (
     <Fragment>
@@ -83,6 +92,7 @@ const UserListScreen = () => {
             <tbody>
               {users &&
                 users
+                  .slice(pagesVisited, pagesVisited + usersPerPage)
                   .filter((user) => {
                     if (searchTerm == "") {
                       return user;
@@ -144,6 +154,24 @@ const UserListScreen = () => {
             </tbody>
           </Table>
         )}
+        <Row>
+          <Col className="paginate-col">
+            {" "}
+            <ReactPaginate
+              previousLabel={"Prev"}
+              nextLabel={"Next"}
+              pageCount={users && Math.ceil(users.length / usersPerPage)}
+              onPageChange={changePage}
+              pageRangeDisplayed={5}
+              containerClassName={"pagination-btns"}
+              activeClassName={"active-btn"}
+              previousClassName={"previous-btn"}
+              nextClassName={"next-btn"}
+              pageClassName={"page-btns"}
+              disabledClassName={"disabled-btn"}
+            />
+          </Col>
+        </Row>
       </Container>
     </Fragment>
   );

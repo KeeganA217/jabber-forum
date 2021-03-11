@@ -26,6 +26,9 @@ body {
   left: 50px;
   height: 250px;
 }
+a {
+  color: #1687a7;
+}
 
 .browse-btn {
   background-color: var(--main-accent-color);
@@ -49,4 +52,43 @@ body {
 
 img {
   border: 2px solid black !important;
+}
+
+.pagination-btns {
+  display: flex;
+  list-style: none;
+  width: 50%;
+  justify-content: center;
+  font-size: 14px;
+  padding: 0;
+}
+
+.active-btn,
+.previous-btn,
+.next-btn,
+.page-btns {
+  margin: 5px;
+  padding: 6px 6px;
+  color: white;
+  border-radius: 2px;
+  box-shadow: 2px 2px 7px 0px rgba(0, 0, 0, 0.3);
+}
+
+.previous-btn:hover,
+.next-btn:hover,
+.page-btns:hover {
+  background-color: #1687a7;
+}
+
+.active-btn {
+  background-color: #1687a7;
+}
+
+.disabled-btn {
+  display: none;
+}
+
+.paginate-col {
+  display: flex;
+  justify-content: center;
 }

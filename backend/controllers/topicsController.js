@@ -21,7 +21,7 @@ const getRecentTopics = asyncHandler(async (req, res) => {
 const getAllTopics = asyncHandler(async (req, res) => {
   let sqlFind = `SELECT * FROM topics ORDER BY title`;
 
-  await connection.query(sqlFind, (err, result) => {
+  const topics = await connection.query(sqlFind, (err, result) => {
     if (err) {
       console.log(err);
     } else {

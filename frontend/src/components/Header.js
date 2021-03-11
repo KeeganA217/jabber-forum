@@ -89,13 +89,16 @@ const Header = () => {
                 <Nav.Item>
                   <Nav.Link
                     onClick={() => setShow("modal-one")}
-                    className="mr-1"
+                    className="mr-1 mt-3"
                   >
                     Login
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link onClick={() => setShow("modal-two")}>
+                  <Nav.Link
+                    onClick={() => setShow("modal-two")}
+                    className="mt-3"
+                  >
                     Sign up
                   </Nav.Link>
                 </Nav.Item>

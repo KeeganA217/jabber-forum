@@ -1,17 +1,22 @@
 import React, { useEffect, Fragment, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Button, Container, Table, Form } from "react-bootstrap";
+import { Button, Container, Table, Form, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { listComments, removeComment } from "../actions/commentActions";
 import moment from "moment";
+import ReactPaginate from "react-paginate";
 
 const CommentListScreen = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [searchTerm, SetSearchTerm] = useState("");
+  const [pageNumber, setPageNumber] = useState(0);
+
+  const commentsPerPage = 20;
+  const pagesVisited = pageNumber * commentsPerPage;
 
   const listAllComments = useSelector((state) => state.listAllComments);
   const { loading, error, comments } = listAllComments;
@@ -36,6 +41,10 @@ const CommentListScreen = () => {
     if (window.confirm("Are you sure you want to delete this comment?")) {
       dispatch(removeComment(id));
     }
+  };
+
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
   };
   return (
     <Fragment>
@@ -77,6 +86,7 @@ const CommentListScreen = () => {
             <tbody>
               {comments &&
                 comments
+                  .slice(pagesVisited, pagesVisited + commentsPerPage)
                   .filter((comment) => {
                     if (searchTerm == "") {
                       return comment;
@@ -124,6 +134,25 @@ const CommentListScreen = () => {
             </tbody>
           </Table>
         )}
+        <Row>
+          <Col className="paginate-col">
+            <ReactPaginate
+              previousLabel={"Prev"}
+              nextLabel={"Next"}
+              pageCount={
+                comments && Math.ceil(comments.length / commentsPerPage)
+              }
+              onPageChange={changePage}
+              pageRangeDisplayed={5}
+              containerClassName={"pagination-btns"}
+              activeClassName={"active-btn"}
+              previousClassName={"previous-btn"}
+              nextClassName={"next-btn"}
+              pageClassName={"page-btns"}
+              disabledClassName={"disabled-btn"}
+            />
+          </Col>
+        </Row>
       </Container>
     </Fragment>
   );

@@ -15,6 +15,7 @@ import {
   USER_UPDATE_RESET,
 } from "../constants/userConstants";
 import moment from "moment";
+import ReactPaginate from "react-paginate";
 
 const UserEditScreen = ({ match }) => {
   const userId = match.params.id;
@@ -25,8 +26,12 @@ const UserEditScreen = ({ match }) => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [isAdmin, setIsAdmin] = useState("");
+  const [pageNumber, setPageNumber] = useState(0);
 
   const dispatch = useDispatch();
+
+  const commentsPerPage = 10;
+  const pagesVisited = pageNumber * commentsPerPage;
 
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user, success: detailsSuccess } = userDetails;
@@ -73,6 +78,10 @@ const UserEditScreen = ({ match }) => {
       })
     );
     history.push("/admin/userlist");
+  };
+
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
   };
 
   return (
@@ -180,21 +189,38 @@ const UserEditScreen = ({ match }) => {
                 )}
                 {comments &&
                   comments.length !== 0 &&
-                  comments.map((comment) => (
-                    <tr key={comment.comment_id}>
-                      <td>
-                        {moment(comment.date_added).format("MMMM Do, YYYY")}
-                      </td>
-                      <td>
-                        <Link to={`/topics/${comment.topic_id}`}>
-                          {comment.topic_id}
-                        </Link>
-                      </td>
-                      <td>{comment.comment}</td>
-                    </tr>
-                  ))}
+                  comments
+                    .slice(pagesVisited, pagesVisited + commentsPerPage)
+                    .map((comment) => (
+                      <tr key={comment.comment_id}>
+                        <td>
+                          {moment(comment.date_added).format("MMMM Do, YYYY")}
+                        </td>
+                        <td>
+                          <Link to={`/topics/${comment.topic_id}`}>
+                            {comment.topic_id}
+                          </Link>
+                        </td>
+                        <td>{comment.comment}</td>
+                      </tr>
+                    ))}
               </tbody>
             </Table>
+            <ReactPaginate
+              previousLabel={"Prev"}
+              nextLabel={"Next"}
+              pageCount={
+                comments && Math.ceil(comments.length / commentsPerPage)
+              }
+              onPageChange={changePage}
+              pageRangeDisplayed={5}
+              containerClassName={"pagination-btns"}
+              activeClassName={"active-btn"}
+              previousClassName={"previous-btn"}
+              nextClassName={"next-btn"}
+              pageClassName={"page-btns"}
+              disabledClassName={"disabled-btn"}
+            />
             {comments.length === 0 && (
               <Message className="mt-5" variant="secondary">
                 This User has not posted any comments yet.

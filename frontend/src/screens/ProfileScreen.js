@@ -21,6 +21,7 @@ import {
 import axios from "axios";
 import moment from "moment";
 import { USER_LOGOUT } from "../constants/userConstants";
+import ReactPaginate from "react-paginate";
 
 const ProfileScreen = () => {
   const history = useHistory();
@@ -32,8 +33,12 @@ const ProfileScreen = () => {
   const [message, setMessage] = useState("");
   const [uploading, setUploading] = useState(false);
   const [image, setImage] = useState("");
+  const [pageNumber, setPageNumber] = useState(0);
 
   const dispatch = useDispatch();
+
+  const commentsPerPage = 10;
+  const pagesVisited = pageNumber * commentsPerPage;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo, error, loading } = userLogin;
@@ -128,6 +133,10 @@ const ProfileScreen = () => {
     }
   };
 
+  const changePage = ({ selected }) => {
+    setPageNumber(selected);
+  };
+
   return (
     <Container>
       <Row>
@@ -176,21 +185,40 @@ const ProfileScreen = () => {
             </thead>
             <tbody>
               {comments &&
-                comments.map((comment) => (
-                  <tr key={comment.comment_id}>
-                    <td>
-                      {moment(comment.date_added).format("MMMM Do, YYYY")}
-                    </td>
-                    <td>
-                      <Link to={`/topics/${comment.topic_id}`}>
-                        {comment.topic_id}
-                      </Link>
-                    </td>
-                    <td>{comment.comment}</td>
-                  </tr>
-                ))}
+                comments
+                  .slice(pagesVisited, pagesVisited + commentsPerPage)
+                  .map((comment) => (
+                    <tr key={comment.comment_id}>
+                      <td>
+                        {moment(comment.date_added).format("MMMM Do, YYYY")}
+                      </td>
+                      <td>
+                        <Link to={`/topics/${comment.topic_id}`}>
+                          {comment.topic_id}
+                        </Link>
+                      </td>
+                      <td>{comment.comment}</td>
+                    </tr>
+                  ))}
             </tbody>
           </Table>
+          <Col className="paginate-col">
+            <ReactPaginate
+              previousLabel={"Prev"}
+              nextLabel={"Next"}
+              pageCount={
+                comments && Math.ceil(comments.length / commentsPerPage)
+              }
+              onPageChange={changePage}
+              pageRangeDisplayed={5}
+              containerClassName={"pagination-btns"}
+              activeClassName={"active-btn"}
+              previousClassName={"previous-btn"}
+              nextClassName={"next-btn"}
+              pageClassName={"page-btns"}
+              disabledClassName={"disabled-btn"}
+            />
+          </Col>
         </Col>
       </Row>
       <Row>
