@@ -188,7 +188,7 @@ const SingleTopicScreen = ({ match }) => {
             </Row>
           </Fragment>
         )}
-        <Row>
+        <Row className="my-3">
           {comments && comments.length !== 0 && (
             <Col md={8} className="paginate-col">
               <ReactPaginate

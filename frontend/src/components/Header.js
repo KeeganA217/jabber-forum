@@ -32,7 +32,7 @@ const Header = () => {
 
   return (
     <Fragment>
-      <Navbar variant="dark" className="mb-2 navbar-main">
+      <Navbar variant="dark" className="mb-0 navbar-main">
         <Container>
           <Navbar.Brand href="/" className="my-0 py-0">
             <h1 className="main-title">Jabber</h1>

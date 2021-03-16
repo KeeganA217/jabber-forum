@@ -8,6 +8,7 @@ import SingleTopicScreen from "./screens/SingleTopicScreen";
 import UserListScreen from "./screens/UserListScreen";
 import UserEditScreen from "./screens/UserEditScreen";
 import CommentListScreen from "./screens/CommentListScreen";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Route path="/profile" exact component={ProfileScreen} />
       <Route path="/topics" exact component={TopicsScreen} />
       <Route path="/topics/:id" exact component={SingleTopicScreen} />
+      <Footer />
     </div>
   );
 }

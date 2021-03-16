@@ -1,5 +1,13 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { Card, Col, Row, Button, Container, Form } from "react-bootstrap";
+import {
+  Card,
+  Col,
+  Row,
+  Button,
+  Container,
+  Form,
+  Jumbotron,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { listNewTopics } from "../actions/topicActions";
 import { Link } from "react-router-dom";
@@ -21,52 +29,44 @@ const HomeScreen = () => {
 
   return (
     <Fragment>
-      <Row>
-        <Col lg={3} className="pr-0">
-          <Card className="mx-2 p-3 topics-card">
-            <Card.Title as="div" className="mx-auto">
-              <strong>
-                <h3>Recent Topics</h3>
-              </strong>
-            </Card.Title>
-            <Card.Body>
-              {loading && <Loader />}
-              {error && <Message variant="danger">{error}</Message>}
-              <Form>
+      <Jumbotron fluid className="jumbotron">
+        <Row>
+          <Col lg={3} className="pr-0">
+            <Card className="px-2 mx-5 topics-card">
+              <Card.Title as="div" className="mx-auto mt-3">
+                <strong>
+                  <h2>Explore Recent Topics</h2>
+                </strong>
+              </Card.Title>
+              <Card.Body className="pt-0">
+                {loading && <Loader />}
+                {error && <Message variant="danger">{error}</Message>}
+
                 {topics &&
                   topics.map((topic) => (
                     <Button
                       href={`/topics/${topic.topic_id}`}
                       block
                       key={topic.topic_id}
-                      className="py-2 btn-light"
+                      className="py-2 topic-btn"
                     >
                       {topic.title}
                     </Button>
                   ))}
-              </Form>
-              <Card.Text className="mt-2">
-                <Button block className="btn browse-btn" href="/topics">
-                  Browse All
-                </Button>
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-        {/* <Col className="pl-0">
-          <Card>
-            <div className="intro-card mr-2">
-              <Row>
-                <p className="ml-auto mr-5 my-0 py-0">"Discuss</p>
-              </Row>
-              <Row>
-                <p className="ml-auto mr-5 p-0 my-0">Freely"</p>
-              </Row>
-              <img className="img-person-left" src="images/megaphone.png" />
-            </div>
-          </Card>
-        </Col> */}
-      </Row>
+
+                <Card.Text className="mt-3">
+                  <Button block className="btn browse-btn" href="/topics">
+                    Browse More
+                  </Button>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col lg={8} className="title-col ml-auto px-0 mx-0">
+            <p>Discuss Freely.</p>
+          </Col>
+        </Row>
+      </Jumbotron>
     </Fragment>
   );
 };

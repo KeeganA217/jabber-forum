@@ -6,7 +6,7 @@ import {
   Col,
   Table,
   Container,
-  Image,
+  Figure,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
@@ -144,22 +144,26 @@ const ProfileScreen = () => {
           <h3>
             {userInfo && userInfo.first_name} {userInfo && userInfo.last_name}
           </h3>
-
-          <Image
-            to="/profile"
-            fluid
-            rounded
-            style={{
-              height: "225px",
-              width: "265px",
-              border: "2px solid black",
-            }}
-            src={
-              userInfo && !userInfo.image
-                ? "images/default.png"
-                : userInfo && userInfo.image
-            }
-          />
+          <Figure>
+            <Figure.Image
+              to="/profile"
+              // fluid
+              // rounded
+              // style={{
+              //   height: "225px",
+              //   width: "265px",
+              //   border: "2px solid black",
+              // }}
+              src={
+                userInfo && !userInfo.image
+                  ? "images/default.png"
+                  : userInfo && userInfo.image
+              }
+              width={150}
+              height={80}
+              alt="171x180"
+            />
+          </Figure>
         </Col>
         <Col md={8} className="ml-5 mt-4">
           <p>
