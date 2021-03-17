@@ -32,7 +32,7 @@ const Footer = () => {
 
   return (
     <Fragment>
-      <Navbar variant="dark" className="footer-main">
+      <Navbar variant="dark" className="footer-main" sticky="bottom">
         <Container>
           <Nav>
             <LinkContainer to="/topics" className="mt-3">
@@ -51,7 +51,7 @@ const Footer = () => {
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link className="mr-1 mt-3" onClick={logoutHandler}>
+                  <Nav.Link className="mr-2 mt-3" onClick={logoutHandler}>
                     Logout
                   </Nav.Link>
                 </Nav.Item>
@@ -76,8 +76,8 @@ const Footer = () => {
                 </Nav.Item>
               </Fragment>
             )}
-            <Nav.Item className="mt-4">
-              <p>Developed by Keegan Adams &copy; 2020 All rights reserved..</p>
+            <Nav.Item className="ml-5 mt-4">
+              <p>Developed by Keegan Adams &copy; 2020 All rights reserved.</p>
             </Nav.Item>
           </Nav>
         </Container>

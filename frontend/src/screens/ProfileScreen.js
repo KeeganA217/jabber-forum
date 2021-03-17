@@ -147,18 +147,12 @@ const ProfileScreen = () => {
           <Figure>
             <Figure.Image
               to="/profile"
-              // fluid
-              // rounded
-              // style={{
-              //   height: "225px",
-              //   width: "265px",
-              //   border: "2px solid black",
-              // }}
               src={
                 userInfo && !userInfo.image
                   ? "images/default.png"
                   : userInfo && userInfo.image
               }
+              rounded
               width={150}
               height={80}
               alt="171x180"

@@ -3,14 +3,19 @@
 }
 
 body {
-  background-color: #f6f5f5;
+  background: rgb(224, 224, 224);
+  background: linear-gradient(
+    90deg,
+    rgba(224, 224, 224, 1) 0%,
+    rgba(250, 250, 250, 1) 49%,
+    rgba(224, 224, 224, 1) 100%
+  );
 }
 
 .App {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
-  overflow: scroll;
 }
 
 .navbar-main {
@@ -23,9 +28,7 @@ body {
   background-color: #1687a7;
   height: 10rem;
   box-shadow: 6px -5px 5px 0px rgba(0, 0, 0, 0.2);
-  position: absolute;
-  bottom: 0;
-  width: 100%;
+  margin-top: auto;
 }
 
 a {
@@ -86,25 +89,29 @@ img {
   padding: 0;
 }
 
-.active-btn,
 .previous-btn,
 .next-btn,
 .page-btns {
   margin: 5px;
   padding: 6px 6px;
   color: white;
-  border-radius: 2px;
-  box-shadow: 2px 2px 7px 0px rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  background-color: #1687a7;
+  box-shadow: 2px 2px 7px 0px rgba(0, 0, 0, 0.15);
 }
 
 .previous-btn:hover,
 .next-btn:hover,
 .page-btns:hover {
-  background-color: #1687a7;
+  border: 1px solid #1687a7;
+  background-color: #d3e0ea;
+  color: black;
 }
 
 .active-btn {
-  background-color: #1687a7;
+  border: 1px solid #1687a7;
+  background-color: #d3e0ea;
+  color: black;
 }
 
 .disabled-btn {
