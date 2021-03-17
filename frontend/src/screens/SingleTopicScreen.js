@@ -169,7 +169,7 @@ const SingleTopicScreen = ({ match }) => {
                     </p>
                   </ListGroup.Item>
                 </ListGroup>
-                <Button className=" btn-info my-3" block onClick={handleShow}>
+                <Button className=" btn my-3" block onClick={handleShow}>
                   Add Comment
                 </Button>
 

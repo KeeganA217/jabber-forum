@@ -53,21 +53,36 @@ a {
 
 .jumbotron {
   background-color: var(--main-accent-color);
-  border-bottom: 6px solid black;
-  box-shadow: 6px 5px 5px 0px rgba(0, 0, 0, 0.2);
+  border-bottom: 4px solid black;
+  /* box-shadow: 6px 5px 5px 0px rgba(0, 0, 0, 0.2); */
   overflow-x: hidden;
 }
 
 .title-col p {
   font-size: 4rem;
+  float: right;
 }
 
 .topics-card {
-  box-shadow: 6px 7px 7px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 6px 7px 20px 0px rgba(109, 108, 108, 0.2);
 }
 
 .topic-link-accent {
   font-size: 1.4rem;
+}
+
+.home-info {
+  padding: 4rem;
+  margin: 2rem 0;
+}
+
+.home-info:nth-child(1) {
+  border-right: 4px solid black;
+  border-left: 4px solid black;
+}
+.home-info:nth-child(2) {
+  border-left: 4px solid black;
+  border-right: 4px solid black;
 }
 
 .delete-button {
@@ -110,7 +125,7 @@ img {
 
 .active-btn {
   border: 1px solid #1687a7;
-  background-color: #d3e0ea;
+  background-color: transparent;
   color: black;
 }
 

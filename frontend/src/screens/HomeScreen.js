@@ -35,7 +35,7 @@ const HomeScreen = () => {
             <Card className="px-2 mx-5 topics-card">
               <Card.Title as="div" className="mx-auto mt-3">
                 <strong>
-                  <h2>Explore Recent Topics</h2>
+                  <h2>Recent Topics</h2>
                 </strong>
               </Card.Title>
               <Card.Body className="pt-0">
@@ -62,11 +62,19 @@ const HomeScreen = () => {
               </Card.Body>
             </Card>
           </Col>
-          <Col lg={8} className="title-col ml-auto px-0 mx-0">
+          <Col lg={8} className="title-col mr-5 px-0 mx-0">
             <p>Discuss Freely.</p>
           </Col>
         </Row>
       </Jumbotron>
+      <Row className="my-4">
+        <Col md={4} className="text-center home-info mx-auto">
+          <h2>Take part in discussions already there...</h2>
+        </Col>
+        <Col md={4} className="text-center home-info mx-auto">
+          <h2>Or create one of your own!</h2>
+        </Col>
+      </Row>
     </Fragment>
   );
 };

@@ -17,7 +17,7 @@ const TopicsScreen = () => {
   const [message, setMessage] = useState("");
   const [pageNumber, setPageNumber] = useState(0);
 
-  const topicsPerPage = 2;
+  const topicsPerPage = 10;
   const pagesVisited = pageNumber * topicsPerPage;
 
   const getAllTopics = useSelector((state) => state.getAllTopics);
