@@ -77,6 +77,7 @@ const loginUser = asyncHandler(async (req, res) => {
             isAdmin: result[0].isAdmin,
             image: result[0].image,
             token: generateToken(result[0].id),
+            joined_on: result[0].joined_on,
           });
         } else {
           res.status(400);
@@ -122,6 +123,7 @@ const updateOwnProfile = asyncHandler(async (req, res) => {
                 isAdmin: result[0].isAdmin,
                 image: result[0].image,
                 token: generateToken(result[0].id),
+                joined_on: result[0].joined_on,
               });
             }
           });
@@ -157,6 +159,7 @@ const updateUser = asyncHandler(async (req, res) => {
               email: result[0].email,
               isAdmin: result[0].isAdmin,
               token: generateToken(result[0].id),
+              joined_on: result[0].joined_on,
             });
           }
         });

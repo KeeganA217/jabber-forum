@@ -1,18 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
-import {
-  Card,
-  Col,
-  Row,
-  Button,
-  Container,
-  Form,
-  Jumbotron,
-} from "react-bootstrap";
+import { Card, Col, Row, Button, Jumbotron } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { listNewTopics } from "../actions/topicActions";
 import { Link } from "react-router-dom";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import { gsap, Power4 } from "gsap";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -25,6 +18,13 @@ const HomeScreen = () => {
 
   useEffect(() => {
     dispatch(listNewTopics());
+
+    gsap.from(".title", {
+      opacity: 0,
+      x: 1575,
+      ease: Power4,
+      duration: 1.4,
+    });
   }, [userInfo]);
 
   return (
@@ -62,14 +62,17 @@ const HomeScreen = () => {
               </Card.Body>
             </Card>
           </Col>
-          <Col lg={8} className="title-col mr-5 px-0 mx-0">
-            <p>Discuss Freely.</p>
+          <Col lg={8} className="title-col mr-5 px-0 mt-auto">
+            <p className="title">Discuss Freely.</p>
           </Col>
         </Row>
       </Jumbotron>
       <Row className="my-4">
         <Col md={4} className="text-center home-info mx-auto">
           <h2>Take part in discussions already there...</h2>
+        </Col>
+        <Col md={1} className="icon">
+          <i className="fas fa-plus"></i>
         </Col>
         <Col md={4} className="text-center home-info mx-auto">
           <h2>Or create one of your own!</h2>

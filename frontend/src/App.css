@@ -1,34 +1,30 @@
 :root {
-  --main-accent-color: #d3e0ea;
-}
-
-body {
-  background: rgb(224, 224, 224);
-  background: linear-gradient(
-    90deg,
-    rgba(224, 224, 224, 1) 0%,
-    rgba(250, 250, 250, 1) 49%,
-    rgba(224, 224, 224, 1) 100%
-  );
+  --main-accent-color: #8ac4d0;
+  --secondary-color: #28527a;
 }
 
 .App {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 .navbar-main {
-  background-color: #1687a7;
+  background-color: var(--secondary-color);
   box-shadow: 6px 5px 5px 0px rgba(0, 0, 0, 0.2);
   border-bottom: 2px solid black;
 }
 
 .footer-main {
-  background-color: #1687a7;
-  height: 10rem;
-  box-shadow: 6px -5px 5px 0px rgba(0, 0, 0, 0.2);
+  background-color: var(--secondary-color);
+  height: 8rem;
+  box-shadow: 6px -5px 10px 0px rgba(0, 0, 0, 0.2);
   margin-top: auto;
+}
+
+.footer-main p {
+  color: #fbeeac;
 }
 
 a {
@@ -37,34 +33,34 @@ a {
 
 .main-title {
   color: var(--main-accent-color);
+  font-size: 3rem;
 }
 
 .browse-btn {
-  background-color: #1687a7;
+  background-color: var(--main-accent-color);
   border: none;
-  color: black;
 }
 
 .topic-btn {
-  background-color: var(--main-accent-color);
+  background-color: rgb(240, 239, 239);
   color: black;
   border: none;
 }
 
 .jumbotron {
-  background-color: var(--main-accent-color);
+  background-color: white;
   border-bottom: 4px solid black;
-  /* box-shadow: 6px 5px 5px 0px rgba(0, 0, 0, 0.2); */
-  overflow-x: hidden;
+  margin: 0 3rem;
 }
 
 .title-col p {
-  font-size: 4rem;
+  font-size: 5rem;
   float: right;
 }
 
 .topics-card {
-  box-shadow: 6px 7px 20px 0px rgba(109, 108, 108, 0.2);
+  border: 1px solid black;
+  border-radius: 5px !important;
 }
 
 .topic-link-accent {
@@ -72,17 +68,26 @@ a {
 }
 
 .home-info {
-  padding: 4rem;
+  padding: 3rem;
   margin: 2rem 0;
 }
 
-.home-info:nth-child(1) {
+.home-info {
   border-right: 4px solid black;
   border-left: 4px solid black;
 }
-.home-info:nth-child(2) {
-  border-left: 4px solid black;
-  border-right: 4px solid black;
+
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
+  color: #fbeeac;
+}
+
+.icon:hover {
+  transform: rotate(360deg);
+  transition: 1s;
 }
 
 .delete-button {
@@ -118,13 +123,13 @@ img {
 .previous-btn:hover,
 .next-btn:hover,
 .page-btns:hover {
-  border: 1px solid #1687a7;
-  background-color: #d3e0ea;
+  border: 2px solid var(--secondary-color);
+  background-color: var(--main-accent-color);
   color: black;
 }
 
 .active-btn {
-  border: 1px solid #1687a7;
+  border: 2px solid var(--secondary-color);
   background-color: transparent;
   color: black;
 }

@@ -63,7 +63,7 @@ const TopicsScreen = () => {
       <Container>
         <Row className="mt-4 mb-3">
           <Col md={8}>
-            <h1>Current Open Topics</h1>
+            <h1>Current Open Discussions</h1>
             <Form>
               <Form.Group>
                 <Form.Control
