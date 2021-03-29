@@ -5,7 +5,7 @@ import { listNewTopics } from "../actions/topicActions";
 import { Link } from "react-router-dom";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { gsap, Power4 } from "gsap";
+import { gsap, Power1 } from "gsap";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -22,20 +22,30 @@ const HomeScreen = () => {
     gsap.from(".title", {
       opacity: 0,
       x: 1575,
-      ease: Power4,
+      ease: Power1,
       duration: 1.4,
     });
   }, [userInfo]);
 
   return (
     <Fragment>
-      <Jumbotron fluid className="jumbotron">
+      <Jumbotron
+        fluid
+        className="jumbotron"
+        style={{ backgroundImage: "url('/images/plant.jpg')" }}
+      >
         <Row>
           <Col lg={3} className="pr-0">
             <Card className="px-2 mx-5 topics-card">
               <Card.Title as="div" className="mx-auto mt-3">
                 <strong>
-                  <h2>Recent Topics</h2>
+                  <h2
+                    style={{
+                      textShadow: "3px 3px 2px rgba(150, 150, 150, 0.51)",
+                    }}
+                  >
+                    Recent Topics
+                  </h2>
                 </strong>
               </Card.Title>
               <Card.Body className="pt-0">

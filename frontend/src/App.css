@@ -8,6 +8,7 @@
   min-height: 100vh;
   flex-direction: column;
   overflow-x: hidden;
+  font-family: "Montserrat", sans-serif;
 }
 
 .navbar-main {
@@ -37,30 +38,47 @@ a {
 }
 
 .browse-btn {
-  background-color: var(--main-accent-color);
+  background-color: #cecece;
   border: none;
+  color: black;
+  border-radius: 10px;
 }
 
 .topic-btn {
-  background-color: rgb(240, 239, 239);
+  background-color: var(--main-accent-color);
   color: black;
   border: none;
+  border-radius: 10px;
+}
+
+.browse-btn:hover,
+.topic-btn:hover {
+  border-radius: 2px;
+  transition: 0.5s;
 }
 
 .jumbotron {
-  background-color: white;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   border-bottom: 4px solid black;
-  margin: 0 3rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  background-blend-mode: soft-light;
+  margin: 0;
+  box-shadow: 6px 5px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
 .title-col p {
   font-size: 5rem;
   float: right;
+  margin-right: 20%;
 }
 
 .topics-card {
-  border: 1px solid black;
-  border-radius: 5px !important;
+  border: none;
+  background-color: transparent;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
 
 .topic-link-accent {
@@ -68,7 +86,7 @@ a {
 }
 
 .home-info {
-  padding: 3rem;
+  padding: 3rem 1rem;
   margin: 2rem 0;
 }
 
@@ -83,11 +101,24 @@ a {
   align-items: center;
   font-size: 4rem;
   color: #fbeeac;
+  animation-name: spin;
+  animation-duration: 7500ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 }
 
-.icon:hover {
-  transform: rotate(360deg);
-  transition: 1s;
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.empty-image {
+  width: 120px;
+  border: none !important;
 }
 
 .delete-button {

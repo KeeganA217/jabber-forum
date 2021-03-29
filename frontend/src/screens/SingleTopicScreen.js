@@ -107,9 +107,25 @@ const SingleTopicScreen = ({ match }) => {
                     <Message variant="danger">{errorComments}</Message>
                   )}
                   {comments && comments.length === 0 && (
-                    <h4 className="mt-5 ml-5">
-                      No comments have been posted yet. Be the first?
-                    </h4>
+                    <Fragment>
+                      <Row>
+                        <Col>
+                          <h4 className="mt-5" style={{ marginLeft: "9rem" }}>
+                            "No comments have been posted yet. Be the first?"
+                          </h4>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col md={3}>
+                          {" "}
+                          <img
+                            className="empty-image"
+                            src="/images/megaphone.png"
+                            alt="Loading..."
+                          />
+                        </Col>
+                      </Row>
+                    </Fragment>
                   )}
                   {comments &&
                     comments
