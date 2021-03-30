@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Card, Col, Row, Button, Jumbotron } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { listNewTopics } from "../actions/topicActions";
-import { Link } from "react-router-dom";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { gsap, Elastic, Power1 } from "gsap";
