@@ -156,6 +156,7 @@ const ProfileScreen = () => {
               width={150}
               height={80}
               alt="171x180"
+              className="personal-img"
             />
           </Figure>
         </Col>

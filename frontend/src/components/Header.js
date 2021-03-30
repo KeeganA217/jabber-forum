@@ -77,6 +77,7 @@ const Header = () => {
                       to="/profile"
                       fluid
                       roundedCircle
+                      className="personal-img"
                       src={
                         !userInfo.image ? "images/default.png" : userInfo.image
                       }

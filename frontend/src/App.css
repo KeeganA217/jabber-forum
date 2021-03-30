@@ -42,6 +42,7 @@ a {
   border: none;
   color: black;
   border-radius: 10px;
+  transition: all 0.5s ease;
 }
 
 .topic-btn {
@@ -49,12 +50,12 @@ a {
   color: black;
   border: none;
   border-radius: 10px;
+  transition: all 0.5s ease;
 }
 
 .browse-btn:hover,
 .topic-btn:hover {
   border-radius: 2px;
-  transition: 0.5s;
 }
 
 .jumbotron {
@@ -95,19 +96,59 @@ a {
   border-left: 4px solid black;
 }
 
+svg {
+  cursor: pointer;
+}
+
+#Dark {
+  fill: var(--secondary-color);
+}
+
+#Light {
+  fill: var(--main-accent-color);
+}
+
+#dark1,
+#dark2,
+#light1 {
+  transition: all 1s ease;
+}
+
+#dark2 {
+  transform: translateX(-50%);
+}
+
+#light1,
+#dark1 {
+  transform: translateX(-10%);
+}
+
+svg:hover #dark1 {
+  transform: translateX(40%);
+  opacity: 0;
+}
+
+svg:hover #dark2 {
+  transform: translateX(20%);
+}
+
+svg:hover #light1 {
+  transform: translateX(20%);
+}
+
 .icon {
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 4rem;
-  color: #fbeeac;
-  animation-name: spin;
-  animation-duration: 7500ms;
+  border: none;
+  /* animation-name: expand; */
+  /* animation-duration: 7500ms;
   animation-iteration-count: infinite;
-  animation-timing-function: linear;
+  animation-timing-function: linear; */
 }
 
-@keyframes spin {
+@keyframes expand {
   from {
     transform: rotate(0deg);
   }
@@ -118,7 +159,7 @@ a {
 
 .empty-image {
   width: 120px;
-  border: none !important;
+  border: none;
 }
 
 .delete-button {
@@ -127,7 +168,7 @@ a {
   right: 20px;
 }
 
-img {
+.personal-img {
   border: 2px solid black !important;
 }
 

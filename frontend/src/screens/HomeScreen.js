@@ -23,7 +23,13 @@ const HomeScreen = () => {
       opacity: 0,
       x: 1575,
       ease: Power1,
-      duration: 1.4,
+      duration: 1.6,
+    });
+    gsap.from(".browse-btn", {
+      opacity: 0,
+      y: 70,
+      ease: Power1,
+      duration: 1,
     });
   }, [userInfo]);
 
@@ -82,7 +88,35 @@ const HomeScreen = () => {
           <h2>Take part in discussions already there...</h2>
         </Col>
         <Col md={1} className="icon">
-          <i className="fas fa-plus"></i>
+          <svg
+            width="90"
+            height="85"
+            viewBox="0 0 212 177"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g id="triangles">
+              <g id="Light" opacity="0.8">
+                <path
+                  id="light1"
+                  opacity="0.8"
+                  d="M147.824 85.8332C149.992 86.9502 149.992 90.0498 147.824 91.1668L87.6241 122.186C85.6275 123.215 83.25 121.765 83.25 119.519L83.25 57.4806C83.25 55.2345 85.6275 53.785 87.6241 54.8138L147.824 85.8332Z"
+                />
+              </g>
+              <g id="Dark" opacity="0.8">
+                <path
+                  id="dark1"
+                  opacity="0.8"
+                  d="M194.824 85.8332C196.992 86.9502 196.992 90.0498 194.824 91.1668L134.624 122.186C132.628 123.215 130.25 121.765 130.25 119.519V57.4806C130.25 55.2345 132.627 53.785 134.624 54.8138L194.824 85.8332Z"
+                />
+                <path
+                  id="dark2"
+                  opacity="0.8"
+                  d="M100.824 85.8332C102.992 86.9502 102.992 90.0498 100.824 91.1668L40.6241 122.186C38.6275 123.215 36.25 121.765 36.25 119.519L36.25 57.4806C36.25 55.2345 38.6275 53.785 40.6241 54.8138L100.824 85.8332Z"
+                />
+              </g>
+            </g>
+          </svg>
         </Col>
         <Col md={4} className="text-center home-info mx-auto">
           <h2>Or create one of your own!</h2>
