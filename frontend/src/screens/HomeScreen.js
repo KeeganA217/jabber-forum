@@ -5,7 +5,7 @@ import { listNewTopics } from "../actions/topicActions";
 import { Link } from "react-router-dom";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { gsap, Power1 } from "gsap";
+import { gsap, Elastic, Power1 } from "gsap";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -22,14 +22,14 @@ const HomeScreen = () => {
     gsap.from(".title", {
       opacity: 0,
       x: 1575,
-      ease: Power1,
+      ease: Elastic,
       duration: 1.6,
     });
     gsap.from(".browse-btn", {
       opacity: 0,
       y: 70,
       ease: Power1,
-      duration: 1,
+      duration: 0.8,
     });
   }, [userInfo]);
 
@@ -85,7 +85,7 @@ const HomeScreen = () => {
       </Jumbotron>
       <Row className="my-4">
         <Col md={4} className="text-center home-info mx-auto">
-          <h2>Take part in discussions already there...</h2>
+          <h2>Take part in discussions already created...</h2>
         </Col>
         <Col md={1} className="icon">
           <svg

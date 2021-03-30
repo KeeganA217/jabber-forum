@@ -78,8 +78,7 @@ a {
 .topics-card {
   border: none;
   background-color: transparent;
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
+  opacity: 0.75;
 }
 
 .topic-link-accent {
