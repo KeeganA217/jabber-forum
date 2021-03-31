@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { listNewTopics } from "../actions/topicActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { gsap, Elastic, Power1 } from "gsap";
+import { gsap, Elastic, Power4 } from "gsap";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -27,8 +27,8 @@ const HomeScreen = () => {
     gsap.from(".browse-btn", {
       opacity: 0,
       y: 70,
-      ease: Power1,
-      duration: 0.8,
+      ease: Power4,
+      duration: 0.5,
     });
   }, [userInfo]);
 
