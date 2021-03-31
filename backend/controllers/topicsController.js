@@ -2,7 +2,7 @@ import mysql from "mysql";
 import { db } from "../config/db.js";
 import asyncHandler from "express-async-handler";
 
-const connection = mysql.createConnection(db);
+const connection = mysql.createPool(db);
 
 // GET MOST RECENT TOPICS
 const getRecentTopics = asyncHandler(async (req, res) => {

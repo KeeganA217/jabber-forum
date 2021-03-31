@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken.js";
 
-const connection = mysql.createConnection(db);
+const connection = mysql.createPool(db);
 
 // REGISTER A NEW USER
 const registerUser = asyncHandler(async (req, res) => {
