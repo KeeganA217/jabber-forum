@@ -76,7 +76,7 @@ export const register = (first_name, last_name, email, password) => async (
       type: USER_REGISTER_REQUEST,
     });
 
-    const url = "http://localhost:5000";
+    const url = "http://https://jabber-app.herokuapp.com";
 
     const user = {
       first_name,
@@ -126,7 +126,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
       },
     };
 
-    const url = "http://localhost:5000";
+    const url = "http://https://jabber-app.herokuapp.com";
 
     const { data } = await axios.get(`${url}/api/users/${id}`, config);
 
@@ -162,7 +162,7 @@ export const getUserComments = (id) => async (dispatch, getState) => {
       },
     };
 
-    const url = "http://localhost:5000";
+    const url = "https://jabber-app.herokuapp.com";
 
     const { data } = await axios.get(`${url}/api/comments/admin/${id}`, config);
 
@@ -193,7 +193,7 @@ export const updateOwnProfile = (
     dispatch({
       type: USER_UPDATE_PROFILE_REQUEST,
     });
-    const url = "http://localhost:5000";
+    const url = "http://jabber-app.herokuapp.com";
 
     const {
       userLogin: { userInfo },

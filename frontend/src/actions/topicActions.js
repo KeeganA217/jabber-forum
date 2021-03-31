@@ -34,7 +34,7 @@ export const createNewTopic = (title, id) => async (dispatch, getState) => {
       },
     };
 
-    const url = "http://localhost:5000";
+    const url = "http://jabber-app.herokuapp.com";
 
     const { data } = await axios.post(
       `${url}/api/topics`,
@@ -63,7 +63,7 @@ export const listNewTopics = () => async (dispatch) => {
       type: LIST_TOPICS_REQUEST,
     });
 
-    const url = "http://localhost:5000";
+    const url = "http://jabber-app.herokuapp.com";
 
     const { data } = await axios.get(`${url}/api/topics/new`);
 
@@ -88,7 +88,7 @@ export const listAllTopics = () => async (dispatch) => {
       type: LIST_ALL_TOPICS_REQUEST,
     });
 
-    const url = "http://localhost:5000";
+    const url = "http://jabber-app.herokuapp.com";
 
     const { data } = await axios.get(`${url}/api/topics/all`);
 

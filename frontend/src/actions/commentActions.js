@@ -20,7 +20,7 @@ export const listAllTopicComments = (id) => async (dispatch) => {
       type: LIST_COMMENTS_REQUEST,
     });
 
-    const url = "http://localhost:5000";
+    const url = "http://jabber-app.herokuapp.com";
 
     const { data } = await axios.get(`${url}/api/comments/${id}`);
 
@@ -45,7 +45,7 @@ export const listComments = (id) => async (dispatch, getState) => {
       type: LIST_ALL_COMMENTS_REQUEST,
     });
 
-    const url = "http://localhost:5000";
+    const url = "http://jabber-app.herokuapp.com";
 
     const {
       userLogin: { userInfo },
@@ -85,7 +85,7 @@ export const createNewComment = (comment, topic_id, id) => async (
       type: NEW_COMMENT_REQUEST,
     });
 
-    const url = "http://localhost:5000";
+    const url = "http://jabber-app.herokuapp.com";
 
     const {
       userLogin: { userInfo },
@@ -129,7 +129,7 @@ export const removeComment = (id) => async (dispatch, getState) => {
       type: DELETE_COMMENT_REQUEST,
     });
 
-    const url = "http://localhost:5000";
+    const url = "http://jabber-app.herokuapp.com";
 
     const {
       userLogin: { userInfo },
