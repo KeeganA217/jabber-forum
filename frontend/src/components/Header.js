@@ -13,11 +13,13 @@ import { useHistory } from "react-router-dom";
 import LoginModal from "../modals/LoginModal";
 import { useDispatch, useSelector } from "react-redux";
 import RegisterModal from "../modals/RegisterModal";
-import { logout } from "../actions/userActions";
+import { login, logout } from "../actions/userActions";
 
 const Header = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -28,6 +30,14 @@ const Header = () => {
   const logoutHandler = () => {
     dispatch(logout());
     history.push("/");
+  };
+
+  const loginAdmin = () => {
+    setEmail("Admin@User.com");
+    setPassword(11111);
+    dispatch(login(email, password));
+    setEmail("");
+    setPassword("");
   };
 
   return (
@@ -101,6 +111,15 @@ const Header = () => {
                     className="mt-3"
                   >
                     Sign up
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link
+                    onClick={loginAdmin}
+                    style={{ border: "1px solid white", color: "white" }}
+                    className="mr-1 mt-3 ml-3"
+                  >
+                    Demo as Admin
                   </Nav.Link>
                 </Nav.Item>
               </Fragment>
