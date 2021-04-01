@@ -33,11 +33,7 @@ const Header = () => {
   };
 
   const loginAdmin = () => {
-    setEmail("Admin@User.com");
-    setPassword(11111);
-    dispatch(login(email, password));
-    setEmail("");
-    setPassword("");
+    dispatch(login("Admin@User.com", "11111"));
   };
 
   return (
